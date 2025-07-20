@@ -29,6 +29,8 @@ class Sessao {
 
 class Filme {
   + titulo: string
+  + diretor: string
+  + genero: Genero
   + duracaoMinutos: int
   + classificacao: string
 }
