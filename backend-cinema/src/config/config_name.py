@@ -1,0 +1,12 @@
+from enum import Enum
+
+class ConfigName(str, Enum):
+    """
+    Enum for configuration names.
+    """
+
+    APP_PORT = "APP_PORT"
+
+    MONGODB_CONNECTION_STRING = "MONGODB_CONNECTION_STRING"
+    MONGODB_DATABASE_NAME = "MONGODB_DATABASE_NAME"
+    MONGODB_DATABASE_COLLECTION_NAME = "MONGODB_DATABASE_COLLECTION_NAME"
