@@ -1,0 +1,23 @@
+@startuml
+' C4 Container Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Diagrama de Contêineres - Sistema de Cinema Drive-in
+
+' Personas / Atores
+Person(cliente, "Cliente do Drive-in", "Pessoa que deseja consultar filmes e fazer uma reserva.")
+
+' System Boundary
+System_Boundary(drivein_system, "Sistema de Cinema Drive-in") {
+    Container(frontend, "Aplicação Frontend", "React", "Permite que clientes consultem filmes, sessões e façam reservas.")
+    Container(backend, "API Backend", "Python/FastAPI", "Gerencia a lógica de negócio para reservas, sessões, filmes e clientes.")
+    ContainerDb(postgres, "Banco de Dados Relacional", "PostgreSQL", "Armazena dados de Clientes, Filmes, Sessões e Reservas.")
+    ContainerDb(mongodb, "Banco de Dados NoSQL", "MongoDB", "Armazena logs de atividade e dados de sessão de usuário.")
+}
+
+' Relações
+Rel(cliente, frontend, "Usa para consultar filmes e fazer reservas", "HTTPS")
+Rel(frontend, backend, "Faz chamadas à API", "HTTPS/JSON")
+Rel(backend, postgres, "Lê e escreve dados das entidades", "ORM/SQL")
+Rel(backend, mongodb, "Grava logs de atividade", "Driver/ODM")
+@enduml
