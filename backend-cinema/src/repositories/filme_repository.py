@@ -15,6 +15,7 @@ class FilmeRepository:
             db_filme = Filme(
                 titulo=filme_data.titulo,
                 diretor=filme_data.diretor,
+                generos=filme_data.generos,
                 duracao_minutos=filme_data.duracao_minutos,
                 nota=filme_data.nota
             )
@@ -34,6 +35,15 @@ class FilmeRepository:
     
     def obter_filme_por_id(self, filme_id: uuid.UUID) -> Optional[Filme]:
         return self.db.query(Filme).filter(Filme.id == filme_id).first()
+    
+    def obter_generos_filme(self, filme_id: uuid.UUID) -> List[str]:
+        db_filme = self.obter_filme_por_id(filme_id)
+        if db_filme:
+            return db_filme.generos
+        return []
+    
+    def obter_filmes_por_genero(self, genero: str) -> List[Filme]:
+        return self.db.query(Filme).filter(Filme.generos.any(genero)).all()
     
     def obter_filme_por_titulo(self, titulo: str) -> List[Filme]:
         return self.db.query(Filme).filter(Filme.titulo.ilike(f"%{titulo}%")).all()

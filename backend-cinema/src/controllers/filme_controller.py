@@ -51,6 +51,19 @@ def obter_filme(
         )
     return filme
 
+@router.get("/titulo/{titulo}", response_model=List[FilmeResponse])
+def obter_filme_por_titulo(
+    titulo: str,
+    filme_service: FilmeService = Depends(get_filme_service)
+):
+    filmes = filme_service.obter_filme_por_titulo(titulo)
+    if not filmes:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Nenhum filme encontrado com esse título"
+        )
+    return filmes
+
 @router.put("/{filme_id}", response_model=FilmeResponse)
 def atualizar_filme(
     filme_id: uuid.UUID,
@@ -81,3 +94,17 @@ def deletar_filme(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Filme não encontrado"
         )
+
+# Endpoint para exibir os gêneros de um filme
+@router.get("/{filme_id}/generos", response_model=List[str])
+def obter_generos_filme(
+    filme_id: uuid.UUID,
+    filme_service: FilmeService = Depends(get_filme_service)
+):
+    generos = filme_service.obter_generos_filme(filme_id)
+    if not generos:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Filme não encontrado ou sem gêneros"
+        )
+    return generos
