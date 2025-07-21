@@ -11,7 +11,7 @@ Na prática, executei boa parte da infraestrutura do sistema, incluindo a implem
 
 Entre os commits mais relevantes, destaco três: o primeiro foi a implementação completa do serviço de OCR, com tratamento assíncrono e validação de placas; o segundo, a criação do adaptador de infraestrutura para MQTT; e o terceiro, o controlador orientado a eventos, que conecta todos os elementos anteriores. Esses três componentes formam a espinha dorsal do backend atual (não finalizado, depois preciso incluir na main, quando finalizar).
 
-Embora tenha conseguido entregar os principais módulos funcionais, alguns pontos ficaram pendentes. Não consegui implementar testes automatizados para TODOS os módulos desenvolvidos (MQTT-Broker), nem atualizar a documentação da API com as novas classes e endpoints. Além disso, enfrentei desafios técnicos, principalmente na configuração do cliente MQTT para lidar com reconexões e múltiplos tópicos, bem como na estruturação da comunicação assíncrona entre os serviços.
+Embora tenha conseguido entregar os principais módulos funcionais, alguns pontos ficaram pendentes. Não consegui implementar testes automatizados para TODOS os módulos desenvolvidos (MQTT-Broker), nem atualizar a documentação da API com as novas classes e endpoints. Além disso, enfrentei desafios técnicos, principalmente na configuração do cliente MQTT para lidar com reconexões e múltiplos tópicos, bem como na estruturação da comunicação assíncrona entre os serviços. Para as próximas etapas, espero finalizar a implementação do sistema de detecção de placas integrado ao OCR finalizado e desenvolver o restante das classes.
 
 ## Histórico de Commits
 
