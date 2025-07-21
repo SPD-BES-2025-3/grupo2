@@ -5,11 +5,14 @@ O projeto consiste no desenvolvimento de um sistema para gerenciamento de um cin
 # Sumário 
 
 1. [Introdução](#1-introdução)  
-   1.1 [Justificativa](#11-justificativa)
+   1.1 [Justificativa](#11-justificativa)  
    1.2 [Descrição do Problema](#12-descrição-do-problema)  
    1.3 [Motivação](#13-motivação) 
 
-2. [Stack Tecnológica](#2-stack-tecnológica)
+2. [Plano do Projeto](#2-plano-do-projeto)  
+   2.1 [Objetivo Geral](#21-objetivo-geral)  
+   2.2 [Objetivos Específicos](#22-objetivos-específicos)  
+   2.3 [Tecnologias e Ferramentas Utilizadas](#23-tecnologias-e-ferramentas-utilizadas)
 
 # 1. Introdução
 
@@ -42,15 +45,41 @@ O projeto é motivado por quatro principais fatores:
 
 3. **Formação Profissional:** A entrega do projeto em etapas simula a realidade de desenvolvimento ágil, estimulando a organização do trabalho em grupo, uso de versionamento com Git, documentação técnica e testes.
 
-4. **Domínio da Persistência de Dados:** O projeto permite explorar diferentes abordagens de persistência de dados — incluindo bancos relacionais com ORM e bancos NoSQL com ODM, proporcionando maior compreensão sobre modelagem de dados, operações CRUD, mapeamento objeto-relacional/documental, e estratégias de integração de dados entre sistemas.
+4. **Domínio da Persistência de Dados:** O projeto permite explorar diferentes abordagens de persistência de dados, incluindo bancos relacionais com ORM e bancos NoSQL com ODM, proporcionando maior compreensão sobre modelagem de dados, operações CRUD, mapeamento objeto-relacional/documental, e estratégias de integração de dados entre sistemas.
 
 
-# 2. Stack Tecnológica
+# 2. Plano do Projeto
+
+## 2.1 Objetivo Geral
+
+Desenvolver um sistema para gerenciamento de um cinema Drive-in, com funcionalidades para administração de sessões, reservas, filmes, clientes e vagas. O sistema será dividido em backend, frontend e camadas de persistência, explorando tecnologias relacionais e não relacionais.
+
+## 2.2 Objetivos Específicos
+
+- Construir uma API RESTful com FastAPI para manipulação dos dados e regras de negócio;
+- Implementar um frontend em React para interação com os usuários;
+- Utilizar PostgreSQL para o armazenamento relacional das entidades principais do domínio;
+- Utilizar MongoDB para armazenar dados não estruturados do sistema;
+- Aplicar boas práticas de documentação com Markdown;
+- Realizar testes unitários nas camadas de backend;
+
+## 2.3 Tecnologias e Ferramentas Utilizadas
 
 O projeto utiliza a seguinte stack tecnológica:
 
 - **Backend:** Python com FastAPI
 - **Frontend:** React
 - **Banco de Dados Relacional:** PostgreSQL
-- **Banco de Dados NoSQL:** MongoDB 
+- **Banco de Dados NoSQL:** MongoDB
+
+# 3. Cronograma de Desenvolvimento
+
+|Iteração|Descrição|Data Início|Data Fim|Responsável|Situação|
+|---|---|---|---|---|---|
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
 
