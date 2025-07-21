@@ -1,6 +1,6 @@
 # Sistema de Cinema Drive-in 
 
-#### Discente: João Gabel Cavalcante França
+#### Discente: João Gabriel Cavalcante França
 
 ## Relatório - Etapa 01
 
