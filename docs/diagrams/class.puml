@@ -1,0 +1,55 @@
+@startuml DriveInCinema
+' Título do Diagrama
+title Diagrama de Classes - Cinema Drive-in (Versão Simplificada)
+
+' Estilo (Opcional, para melhorar a aparência)
+!theme crt-amber
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' --- Entidades Principais ---
+
+class Cliente {
+  + nome: string
+  + email: string
+  + placa: string
+}
+
+class Reserva {
+  + cliente: Cliente
+  + sessao: Sessao
+  + status: string
+}
+
+class Sessao {
+  + data: date
+  + horario: time
+  + precoPorVeiculo: decimal
+}
+
+class Filme {
+  + titulo: string
+  + diretor: string
+  + genero: Genero
+  + duracaoMinutos: int
+  + classificacao: string
+}
+
+
+class Genero {
+  + nome: string
+}
+
+
+' --- Relacionamentos ---
+
+' Relações 1:N (Um-para-Muitos)
+Cliente "1" -- "0..*" Reserva : faz >
+Filme "1" -- "0..*" Sessao : é exibido em >
+Sessao "1" -- "0..*" Reserva : contém <
+
+' Relação N:N (Muitos-para-Muitos)
+' Um filme pode ter vários gêneros, e um gênero pode ter vários filmes.
+Filme "0..*" -- "0..*" Genero : pertence a
+
+@enduml

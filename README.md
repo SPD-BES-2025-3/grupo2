@@ -9,6 +9,8 @@ O projeto consiste no desenvolvimento de um sistema para gerenciamento de um cin
    1.2 [Descrição do Problema](#12-descrição-do-problema)  
    1.3 [Motivação](#13-motivação) 
 
+2. [Stack Tecnológica](#2-stack-tecnológica)
+
 # 1. Introdução
 
 ## 1.1 Justificativa
@@ -43,4 +45,12 @@ O projeto é motivado por quatro principais fatores:
 4. **Domínio da Persistência de Dados:** O projeto permite explorar diferentes abordagens de persistência de dados — incluindo bancos relacionais com ORM e bancos NoSQL com ODM, proporcionando maior compreensão sobre modelagem de dados, operações CRUD, mapeamento objeto-relacional/documental, e estratégias de integração de dados entre sistemas.
 
 
+# 2. Stack Tecnológica
+
+O projeto utiliza a seguinte stack tecnológica:
+
+- **Backend:** Python com FastAPI
+- **Frontend:** React
+- **Banco de Dados Relacional:** PostgreSQL
+- **Banco de Dados NoSQL:** MongoDB 
 
