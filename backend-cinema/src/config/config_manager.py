@@ -13,7 +13,12 @@ class ConfigManager:
     def __load_env(self):
         self._env = {
             ConfigName.APP_PORT: os.getenv(ConfigName.APP_PORT, "8000"),
-            
+
+            # MQTT
+            ConfigName.MQTT_BROKER_URL: os.getenv(ConfigName.MQTT_BROKER_URL, "mqtt://localhost:1883"),
+            ConfigName.MQTT_BROKER_PORT: os.getenv(ConfigName.MQTT_BROKER_PORT, "1883"),
+            ConfigName.MQTT_BROKER_CLIENT_ID: os.getenv(ConfigName.MQTT_BROKER_CLIENT_ID, "client_id"),
+
             # PostgreSQL
             ConfigName.POSTGRES_HOST: os.getenv(ConfigName.POSTGRES_HOST, "localhost"),
             ConfigName.POSTGRES_PORT: os.getenv(ConfigName.POSTGRES_PORT, "5432"),
