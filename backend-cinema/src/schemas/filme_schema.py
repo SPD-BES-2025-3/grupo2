@@ -7,6 +7,7 @@ class Filme(BaseModel):
     id: int
     titulo: str
     diretor: str
+    generos: List[GeneroEnum]
     duracao_minutos: int
     nota: float
 

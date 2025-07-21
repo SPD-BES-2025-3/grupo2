@@ -17,12 +17,6 @@ env_path = Path(__file__).resolve().parent.parent.parent / ".env.example"
 print(f"[DEBUG] Procurando .env em: {env_path}")
 load_dotenv(dotenv_path=env_path)
 
-print("[DEBUG] POSTGRES_HOST:", os.getenv("POSTGRES_HOST"))
-print("[DEBUG] POSTGRES_PORT:", os.getenv("POSTGRES_PORT"))
-print("[DEBUG] POSTGRES_DATABASE:", os.getenv("POSTGRES_DATABASE"))
-print("[DEBUG] POSTGRES_USER:", os.getenv("POSTGRES_USER"))
-print("[DEBUG] POSTGRES_PASSWORD:", os.getenv("POSTGRES_PASSWORD"))
-
 db_url = os.getenv("DATABASE_URL")
 if db_url is None:
     db_url = (
