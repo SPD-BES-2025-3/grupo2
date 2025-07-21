@@ -6,7 +6,7 @@ import ReservationModal from "./components/ReservationModal";
 function App() {
   return (
     <>
-      <h1>Drive-In Cinema Reservations</h1>
+      <h1>Drive-In Cinema</h1>
       <CurrentMoviesSection />
       <ReservationsSection />
       <ReservationModal />

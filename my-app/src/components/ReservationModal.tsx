@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useReservationStore } from "../stores/useReservationStore";
 import { useMovieStore } from "../stores/useMovieStore";
+import MovieCard from "./MovieCard";
 
 const ReservationModal = () => {
-  const { selectedReservation, updateReservation, addReservation } =
-    useReservationStore();
-  const { sessions } = useMovieStore();
+  const {
+    selectedReservation,
+    updateReservation,
+    addReservation,
+    isOpen,
+    close,
+  } = useReservationStore();
+  const { sessions, movies, selectedSession } = useMovieStore();
+  console.log(sessions);
+  const movie = movies.find((m) => m.id === selectedSession?.movie_id);
 
   const [customerName, setCustomerName] = React.useState(
     selectedReservation?.customer_name || ""
@@ -23,9 +29,6 @@ const ReservationModal = () => {
   const [sessionId, setSessionId] = React.useState(
     selectedReservation?.session_id || ""
   );
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (selectedReservation) {
@@ -53,97 +56,91 @@ const ReservationModal = () => {
     } else {
       addReservation(reservationData);
     }
-    // onClose();
-  };
-
-  // if (!isOpen) return null;
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
+    close();
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        {/* <span className="close" onClick={onClose}> */}
-        <span className="close">&times;</span>
-        <h2>{selectedReservation ? "Edit Reservation" : "New Reservation"}</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Customer Name</label>
-            <input
-              type="text"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Vehicle Plate</label>
-            <input
-              type="text"
-              value={vehiclePlate}
-              onChange={(e) => setVehiclePlate(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Vehicle Plate Image</label>
-            <input
-              type="text"
-              value={vehiclePlateImg}
-              onChange={(e) => setVehiclePlateImg(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Session</label>
-            <select
-              value={sessionId}
-              onChange={(e) => setSessionId(e.target.value)}
-              required
+    <Modal open={isOpen} onClose={close}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          position: "absolute",
+          padding: 4,
+          borderRadius: "2rem",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          boxShadow: 24,
+        }}
+      >
+        <h2 className="modalText" style={{ marginTop: "0" }}>
+          {selectedReservation ? "Editar Reserva" : "Nova Reserva"}
+        </h2>
+        <div style={{ display: "flex", gap: "3rem" }}>
+          {movie && <MovieCard movie={movie} />}
+          <form onSubmit={handleSubmit} style={{ padding: "1rem" }}>
+            <p className="modalText" style={{ fontSize: "1.1rem" }}>
+              <span style={{ fontWeight: "500" }}>Horário: </span>
+              {new Date(selectedSession?.start_time || "").toLocaleString()} -
+              <span style={{ fontWeight: "500" }}>Preço: </span>$
+              {selectedSession?.price_per_vehicle}
+            </p>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <div>
+                <label
+                  className="modalText"
+                  style={{ display: "block", fontWeight: "500" }}
+                >
+                  Nome
+                </label>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  required
+                  style={{ padding: "0.2rem", fontSize: "0.85rem" }}
+                />
+              </div>
+              <div>
+                <label
+                  className="modalText"
+                  style={{ display: "block", fontWeight: "500" }}
+                >
+                  Placa do veículo
+                </label>
+                <input
+                  type="text"
+                  value={vehiclePlate}
+                  onChange={(e) => setVehiclePlate(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: "1.5rem",
+              }}
             >
-              <option value="">Select a session</option>
-              {sessions.map((session) => (
-                <option key={session.id} value={session.id}>
-                  {session.start_time} - ${session.price_per_vehicle}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button type="submit">
-            {selectedReservation ? "Update Reservation" : "Reserve"}
-          </button>
-        </form>
-      </div>
-
-      <div>
-        <Button onClick={handleOpen}>Open modal</Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
-        </Modal>
-      </div>
-    </div>
+              <button
+                type="submit"
+                style={{
+                  alignSelf: "flex-end",
+                  placeSelf: "end",
+                  justifySelf: "end",
+                }}
+              >
+                {selectedReservation ? "Update Reservation" : "Reserve"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </Box>
+    </Modal>
   );
 };
 

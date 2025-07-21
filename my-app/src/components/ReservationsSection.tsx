@@ -15,7 +15,7 @@ const ReservationsSection: React.FC = () => {
   };
 
   return (
-    <div className="reservations-section">
+    <div style={{ paddingTop: "2rem" }}>
       <h2>Reservations</h2>
       {reservations.length === 0 ? (
         <p>No reservations made yet.</p>

@@ -1,12 +1,15 @@
 import React from "react";
 import { useMovieStore } from "../stores/useMovieStore";
 import MovieCard from "./MovieCard";
+import { useReservationStore } from "../stores/useReservationStore";
 
 const CurrentMoviesSection: React.FC = () => {
   const { movies, sessions } = useMovieStore((state) => ({
     movies: state.movies,
     sessions: state.sessions,
   }));
+  const { open } = useReservationStore();
+  const { selectSession } = useMovieStore();
 
   return (
     <div className="current-movies-section">
@@ -19,7 +22,10 @@ const CurrentMoviesSection: React.FC = () => {
               key={movie.id}
               movie={movie}
               sessions={movieSessions}
-              onReserve={(id: number) => console.log(id)}
+              onReserve={(id) => {
+                selectSession(id);
+                open();
+              }}
             />
           );
         })}

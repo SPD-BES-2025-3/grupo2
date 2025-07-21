@@ -4,13 +4,14 @@ import { type Reservation } from "../types/entities";
 interface ReservationStore {
   reservations: Reservation[];
   selectedReservation: Reservation | null;
+
   addReservation: (reservation: Reservation) => void;
   updateReservation: (
     id: number,
     updatedReservation: Partial<Reservation>
   ) => void;
   deleteReservation: (id: number) => void;
-  setSelectedReservation: (reservation: Reservation | null) => void;
+  selectReservation: (reservation: Reservation | null) => void;
 
   isOpen: boolean;
   open: () => void;
@@ -38,8 +39,7 @@ export const useReservationStore = create<ReservationStore>((set) => ({
         (reservation) => reservation.id !== id
       ),
     })),
-  setSelectedReservation: (reservation) =>
-    set({ selectedReservation: reservation }),
+  selectReservation: (reservation) => set({ selectedReservation: reservation }),
 
   isOpen: false,
   open: () => set(() => ({ isOpen: true })),
