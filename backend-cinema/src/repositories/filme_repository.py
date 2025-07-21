@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
-from models.cliente_model import Filme
+from models.filme_model import Filme
 from schemas.filme_schema import FilmeCreate, FilmeUpdate
 from typing import List, Optional
 import uuid

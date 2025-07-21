@@ -4,7 +4,7 @@ from typing import List
 import uuid
 
 from config.database import get_db
-from repositories.cliente_repository import FilmeRepository
+from repositories.filme_repository import FilmeRepository
 from services.filme_service import FilmeService
 from schemas.filme_schema import FilmeCreate, FilmeUpdate, FilmeResponse
 
@@ -22,7 +22,13 @@ def criar_filme(
     filme_data: FilmeCreate,
     filme_service: FilmeService = Depends(get_filme_service)
 ):
-    return filme_service.criar_filme(filme_data)
+    try:
+        return filme_service.criar_filme(filme_data)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
 
 @router.get("/", response_model=List[FilmeResponse])
 def listar_filmes(
@@ -52,13 +58,17 @@ def atualizar_filme(
     filme_service: FilmeService = Depends(get_filme_service)
 ):
     try:
-        return filme_service.atualizar_filme(filme_id, filme_data)
-    except HTTPException as e:
-        raise e
-    except Exception as e:
+        filme = filme_service.atualizar_filme(filme_id, filme_data)
+        if not filme:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Filme não encontrado"
+            )
+        return filme
+    except ValueError as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro ao atualizar filme"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
         )
 
 @router.delete("/{filme_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -66,12 +76,8 @@ def deletar_filme(
     filme_id: uuid.UUID,
     filme_service: FilmeService = Depends(get_filme_service)
 ):
-    try:
-        filme_service.deletar_filme(filme_id)
-    except HTTPException as e:
-        raise e
-    except Exception as e:
+    if not filme_service.deletar_filme(filme_id):
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro ao deletar filme"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Filme não encontrado"
         )
