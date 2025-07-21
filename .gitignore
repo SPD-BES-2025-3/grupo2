@@ -183,3 +183,5 @@ config/production.py
 *.pem
 *.key
 *.crt
+
+node_modules/
