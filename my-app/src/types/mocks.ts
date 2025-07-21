@@ -1,4 +1,9 @@
-import { Movie, Genre, Reservation, Session } from "./entities";
+import {
+  type Movie,
+  type Genre,
+  type Reservation,
+  type Session,
+} from "./entities";
 
 export const genres: Genre[] = [
   { id: 1, name: "Ação" },

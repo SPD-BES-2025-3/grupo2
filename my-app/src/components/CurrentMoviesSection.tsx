@@ -11,11 +11,16 @@ const CurrentMoviesSection: React.FC = () => {
   return (
     <div className="current-movies-section">
       <h2>Current Movies</h2>
-      <div className="movies-list">
+      <div style={{ display: "flex", gap: "4rem" }}>
         {movies.map((movie) => {
           const movieSessions = sessions.filter((s) => s.movie_id === movie.id);
           return (
-            <MovieCard key={movie.id} movie={movie} sessions={movieSessions} />
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              sessions={movieSessions}
+              onReserve={(id: number) => console.log(id)}
+            />
           );
         })}
       </div>

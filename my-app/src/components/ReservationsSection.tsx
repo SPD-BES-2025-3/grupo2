@@ -1,6 +1,6 @@
 import React from "react";
 import { useReservationStore } from "../stores/useReservationStore";
-import { Reservation } from "../types/entities";
+import { type Reservation } from "../types/entities";
 
 const ReservationsSection: React.FC = () => {
   const { reservations, deleteReservation } = useReservationStore();

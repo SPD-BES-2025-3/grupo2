@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Movie, Genre, Session } from "../types/entities";
+import { type Movie, type Genre, type Session } from "../types/entities";
 import { genres, movies, sessions } from "../types/mocks";
 
 type MovieStore = {

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import { useReservationStore } from "../stores/useReservationStore";
 import { useMovieStore } from "../stores/useMovieStore";
 
-const ReservationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
-  isOpen,
-  onClose,
-}) => {
+const ReservationModal = () => {
   const { selectedReservation, updateReservation, addReservation } =
     useReservationStore();
   const { sessions } = useMovieStore();
@@ -22,6 +23,9 @@ const ReservationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [sessionId, setSessionId] = React.useState(
     selectedReservation?.session_id || ""
   );
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (selectedReservation) {
@@ -49,17 +53,28 @@ const ReservationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     } else {
       addReservation(reservationData);
     }
-    onClose();
+    // onClose();
   };
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
+        {/* <span className="close" onClick={onClose}> */}
+        <span className="close">&times;</span>
         <h2>{selectedReservation ? "Edit Reservation" : "New Reservation"}</h2>
         <form onSubmit={handleSubmit}>
           <div>
@@ -108,6 +123,25 @@ const ReservationModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             {selectedReservation ? "Update Reservation" : "Reserve"}
           </button>
         </form>
+      </div>
+
+      <div>
+        <Button onClick={handleOpen}>Open modal</Button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Text in a modal
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+          </Box>
+        </Modal>
       </div>
     </div>
   );

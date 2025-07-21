@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Reservation } from "../types/entities";
+import { type Reservation } from "../types/entities";
 
 interface ReservationStore {
   reservations: Reservation[];
