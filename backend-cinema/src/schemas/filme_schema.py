@@ -1,5 +1,13 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+import uuid
+
+class Filme(BaseModel):
+    id: int
+    titulo: str
+    diretor: str
+    duracao_minutos: int
+    nota: float
 
 class FilmeCreate(BaseModel):
     titulo: str = Field(..., example="Inception", min_length=1)
@@ -13,9 +21,8 @@ class FilmeUpdate(BaseModel):
     duracao_minutos: Optional[int] = None
     nota: Optional[float] = None
 
-class Filme(BaseModel):
-    id: int
-    titulo: str
-    diretor: str
-    duracao_minutos: int
-    nota: float
+class FilmeResponse(Filme):
+    id: uuid.UUID
+
+    class Config:
+        from_attributes = True
