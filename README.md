@@ -65,14 +65,21 @@ Desenvolver um sistema para gerenciamento de um cinema Drive-in, com funcionalid
 
 ## 2.3 Tecnologias e Ferramentas Utilizadas
 
-
 O projeto utiliza a seguinte stack tecnológica:
 
 - **Backend:** Python com FastAPI
 - **Frontend:** React
 - **Banco de Dados Relacional:** PostgreSQL
 - **Banco de Dados NoSQL:** MongoDB
-- **Documentação:** Markdown
-- **Versionamento:** Git e Github
 
+# 3. Cronograma de Desenvolvimento
+
+|Iteração|Descrição|Data Início|Data Fim|Responsável|Situação|
+|---|---|---|---|---|---|
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
 

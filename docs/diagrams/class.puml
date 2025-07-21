@@ -1,6 +1,6 @@
 @startuml DriveInCinema
 ' Título do Diagrama
-title Diagrama de Classes - Cinema Drive-in (Versão Simplificada)
+title Diagrama de Classes - Cinema Drive-in
 
 ' Estilo (Opcional, para melhorar a aparência)
 !theme crt-amber
