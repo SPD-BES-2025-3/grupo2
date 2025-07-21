@@ -35,3 +35,32 @@ def validar_nome_cliente(nome: str) -> bool:
     
     nome = nome.strip()
     return 2 <= len(nome) <= 100
+
+# ==================== VALIDAÇÕES DE FILME ====================
+def validar_titulo_filme(titulo: str) -> bool:
+    if not titulo or len(titulo) < 1:
+        return False
+    return True
+
+def validar_diretor_filme(diretor: str) -> bool:
+    if not diretor or len(diretor) < 1:
+        return False
+    return True
+
+def validar_generos_filme(generos: list) -> tuple:
+    if not generos or not isinstance(generos, list):
+        return False, "A lista de gêneros está vazia ou não é uma lista."
+    for idx, genero in enumerate(generos):
+        if not isinstance(genero, str) or len(genero) < 1:
+            return False, f"Gênero inválido no índice {idx}: '{genero}'"
+    return True, ""
+
+def validar_duracao_filme(duracao: int) -> bool:
+    if not isinstance(duracao, int) or duracao <= 0:
+        return False
+    return True
+
+def validar_nota_filme(nota: float) -> bool:
+    if not isinstance(nota, float) or nota < 0.0 or nota > 10.0:
+        return False
+    return True
