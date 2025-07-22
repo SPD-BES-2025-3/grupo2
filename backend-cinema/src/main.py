@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from config.database import engine, Base
 from controllers.cliente_controller import router as cliente_router
 from controllers.filme_controller import router as filme_router
+from controllers.sessao_controller import router as sessao_router
 from config.config_manager import ConfigManager
 
 try:
@@ -29,6 +30,7 @@ app.add_middleware(
 # Incluir routers
 app.include_router(cliente_router)
 app.include_router(filme_router)
+app.include_router(sessao_router)
 
 # Rota de teste
 @app.get("/")

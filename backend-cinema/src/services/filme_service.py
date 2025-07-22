@@ -11,15 +11,21 @@ class FilmeService:
     def criar_filme(self, filme_data: FilmeCreate) -> FilmeResponse:
         if not validar_titulo_filme(filme_data.titulo):
             raise ValueError("Título inválido")
+        
         if not validar_diretor_filme(filme_data.diretor):
             raise ValueError("Diretor inválido")
+        
         ok, msg = validar_generos_filme(filme_data.generos)
+
         if not ok:
             raise ValueError(f"Gêneros inválidos: {msg}")
+        
         if not validar_duracao_filme(filme_data.duracao_minutos):
             raise ValueError("Duração inválida")
+        
         if not validar_nota_filme(filme_data.nota):
             raise ValueError("Nota inválida")
+        
         filme = self.filme_repository.criar_filme(filme_data)
         return FilmeResponse.model_validate(filme)
 

@@ -1,4 +1,7 @@
+import datetime
 import re
+import uuid
+from repositories import filme_repository
 
 # ==================== VALIDAÇÕES DE CLIENTE ====================
 
@@ -64,3 +67,38 @@ def validar_nota_filme(nota: float) -> bool:
     if not isinstance(nota, float) or nota < 0.0 or nota > 10.0:
         return False
     return True
+
+# ==================== VALIDAÇÕES DE SESSÂO ====================
+
+def validar_data_sessao(data) -> bool:
+    if isinstance(data, datetime.date):
+        return True
+    try:
+        datetime.datetime.strptime(data, '%Y-%m-%d')
+        return True
+    except Exception:
+        return False
+    
+def validar_hora_sessao(hora: str) -> bool:
+    if isinstance(hora, datetime.time):
+        return True
+    try:
+        datetime.datetime.strptime(hora, '%H:%M')
+        return True
+    except Exception:
+        return False
+    
+def validar_preco_sessao(preco: int) -> bool:
+    if not isinstance(preco, int) or preco < 0:
+        return False
+    return True
+
+def validar_filme_id(filme_id) -> bool:
+    if isinstance(filme_id, uuid.UUID):
+        return True
+    try:
+        uuid.UUID(str(filme_id))
+        return True
+    except ValueError:
+        return False
+
