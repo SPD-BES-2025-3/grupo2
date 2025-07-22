@@ -3,8 +3,7 @@ from typing import List, Optional
 from utils.enums import GeneroEnum
 import uuid
 
-class Filme(BaseModel):
-    id: int
+class FilmeBase(BaseModel):
     titulo: str
     diretor: str
     generos: List[GeneroEnum]
@@ -25,7 +24,7 @@ class FilmeUpdate(BaseModel):
     duracao_minutos: Optional[int] = None
     nota: Optional[float] = None
 
-class FilmeResponse(Filme):
+class FilmeResponse(FilmeBase):
     id: uuid.UUID
 
     class Config:
