@@ -29,7 +29,7 @@ class ConfigManager:
             # MongoDB
             ConfigName.MONGODB_CONNECTION_STRING: os.getenv(ConfigName.MONGODB_CONNECTION_STRING, "mongodb://localhost:27017"),
             ConfigName.MONGODB_DATABASE_NAME: os.getenv(ConfigName.MONGODB_DATABASE_NAME, "cinema_db"),
-            ConfigName.MONGODB_DATABASE_COLLECTION_NAME: os.getenv(ConfigName.MONGODB_DATABASE_COLLECTION_NAME, "movies")
+            ConfigName.MONGODB_DATABASE_COLLECTION_NAME: os.getenv(ConfigName.MONGODB_DATABASE_COLLECTION_NAME, "reservations"),
         }
 
     def get(self, key: ConfigName):

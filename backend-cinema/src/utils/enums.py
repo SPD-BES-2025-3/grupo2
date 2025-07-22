@@ -19,3 +19,8 @@ class GeneroEnum(str, Enum):
     TERROR = "Terror"
     ROMANCE = "Romance"
     SUSPENSE = "Suspense"
+
+class StatusReservaEnum(str, Enum):
+    PENDENTE = "Pendente"
+    CONFIRMADA = "Confirmada"
+    CANCELADA = "Cancelada"

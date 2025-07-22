@@ -101,4 +101,3 @@ def validar_filme_id(filme_id) -> bool:
         return True
     except ValueError:
         return False
-
