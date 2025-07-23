@@ -1,14 +1,26 @@
 import uuid
+from datetime import datetime
+from enum import Enum
+from typing import Optional
 
 from beanie import Document
 from pydantic import Field
 
-from utils.enums import StatusReservaEnum
+class StatusReservaEnum(str, Enum):
+    """Enum para status de reserva"""
+    PENDENTE = "pendente"
+    CONFIRMADA = "confirmada"
+    CANCELADA = "cancelada"
 
 class Reserva(Document):
-    sessao_id: uuid.UUID = Field(..., description="ID da sessão (referência ao PostgreSQL)")
-    cliente_id: uuid.UUID = Field(..., description="ID do cliente que está fazendo a reserva")
-    status: StatusReservaEnum = Field(default=StatusReservaEnum.PENDENTE, description="Status da reserva")
-
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
+    sessao_id: str
+    cliente_id: str
+    status: StatusReservaEnum = StatusReservaEnum.PENDENTE
+    data_reserva: datetime = Field(default_factory=datetime.now)
+    
     class Settings:
-        name = "reservas"  # Nome da collection no MongoDB
+        name = "reservas"
+        
+    class Config:
+        use_enum_values = True

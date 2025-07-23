@@ -101,3 +101,26 @@ def validar_filme_id(filme_id) -> bool:
         return True
     except ValueError:
         return False
+
+# ==================== VALIDAÇÕES DE RESERVA ====================
+
+def validar_status_reserva(status: str) -> bool:
+    """Valida se o status da reserva é válido"""
+    from models.reserva_model import StatusReservaEnum
+    try:
+        StatusReservaEnum(status)
+        return True
+    except ValueError:
+        return False
+
+def validar_transicao_status(status_atual: str, novo_status: str) -> bool:
+    """Valida se a transição de status é permitida"""
+    from models.reserva_model import StatusReservaEnum
+    
+    transicoes_validas = {
+        StatusReservaEnum.PENDENTE: [StatusReservaEnum.CONFIRMADA, StatusReservaEnum.CANCELADA],
+        StatusReservaEnum.CONFIRMADA: [StatusReservaEnum.CANCELADA],
+        StatusReservaEnum.CANCELADA: []  # Status final
+    }
+    
+    return novo_status in transicoes_validas.get(status_atual, [])

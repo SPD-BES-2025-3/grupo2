@@ -10,6 +10,8 @@ from alembic import context
 
 from config.database import Base
 from models.filme_model import Filme
+from models.cliente_model import Cliente
+from models.sessao_model import Sessao
 
 
 # Caminho absoluto para o .env na pasta backend-cinema

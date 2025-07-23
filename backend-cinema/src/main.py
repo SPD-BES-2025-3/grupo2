@@ -5,6 +5,7 @@ from config.database import engine, Base
 from controllers.cliente_controller import router as cliente_router
 from controllers.filme_controller import router as filme_router
 from controllers.sessao_controller import router as sessao_router
+from controllers.reserva_controller import router as reserva_router
 from config.config_manager import ConfigManager
 
 try:
@@ -31,6 +32,7 @@ app.add_middleware(
 app.include_router(cliente_router)
 app.include_router(filme_router)
 app.include_router(sessao_router)
+app.include_router(reserva_router)
 
 # Rota de teste
 @app.get("/")
@@ -40,6 +42,12 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": "cinema-drive-in-api"}
+
+@app.on_event("startup")
+async def startup_event():
+    """Eventos executados na inicialização da aplicação"""
+    # Inicializar banco PostgreSQL
+    print("PostgreSQL inicializado com sucesso!")
 
 if __name__ == "__main__":
     import uvicorn

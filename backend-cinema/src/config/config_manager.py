@@ -27,9 +27,10 @@ class ConfigManager:
             ConfigName.POSTGRES_PASSWORD: os.getenv(ConfigName.POSTGRES_PASSWORD, "postgres123"),
             
             # MongoDB
-            ConfigName.MONGODB_CONNECTION_STRING: os.getenv(ConfigName.MONGODB_CONNECTION_STRING, "mongodb://localhost:27017"),
-            ConfigName.MONGODB_DATABASE_NAME: os.getenv(ConfigName.MONGODB_DATABASE_NAME, "cinema_db"),
-            ConfigName.MONGODB_DATABASE_COLLECTION_NAME: os.getenv(ConfigName.MONGODB_DATABASE_COLLECTION_NAME, "reservations"),
+            ConfigName.MONGO_INITDB_ROOT_USERNAME: os.getenv(ConfigName.MONGO_INITDB_ROOT_USERNAME, "admin"),
+            ConfigName.MONGO_INITDB_ROOT_PASSWORD: os.getenv(ConfigName.MONGO_INITDB_ROOT_PASSWORD, "password"),
+            ConfigName.MONGO_INITDB_DATABASE: os.getenv(ConfigName.MONGO_INITDB_DATABASE, "cinema_db"),
+            ConfigName.DATABASE_URL: os.getenv(ConfigName.DATABASE_URL, "mongodb://admin:password@mongo:27017/cinema_db?authSource=admin")
         }
 
     def get(self, key: ConfigName):
@@ -43,3 +44,7 @@ class ConfigManager:
         password = self.get(ConfigName.POSTGRES_PASSWORD)
         
         return f"postgresql://{user}:{password}@{host}:{port}/{database}"
+    
+    def get_mongodb_url(self):
+        """Retorna a URL de conexão do MongoDB"""
+        return self.get(ConfigName.DATABASE_URL)

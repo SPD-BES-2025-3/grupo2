@@ -20,24 +20,21 @@ services:
       retries: 3
 
   mongodb:
-    image: mongo:7
-    container_name: cinema_mongo
-    restart: always
+    image: mongo:latest
+    container_name: mongodb_cinema
+    env_file:
+      - ./.env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin123
-      MONGO_INITDB_DATABASE: cinema_db
-    ports:
-      - "27017:27017"
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     volumes:
       - mongodb_data:/data/db
+    ports:
+      - '27017:27017'
     networks:
       - cinema_network
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+
 
 volumes:
   postgres_data:

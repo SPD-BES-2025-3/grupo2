@@ -1,29 +1,22 @@
 import uuid
-from typing import Optional
-
-from beanie import PydanticObjectId
+from datetime import datetime
 from pydantic import BaseModel, Field
-
-from utils.enums import StatusReservaEnum
+from models.reserva_model import StatusReservaEnum
 
 class ReservaBase(BaseModel):
-    sessao_id: uuid.UUID = Field(..., description="ID da sessão para a qual a reserva está sendo feita")
-    cliente_id: uuid.UUID = Field(..., description="ID do cliente que está fazendo a reserva")
-    status: StatusReservaEnum = Field(..., description="Status atual da reserva")
+    sessao_id: str = Field(..., description="ID da sessão para a qual a reserva está sendo feita")
+    cliente_id: str = Field(..., description="ID do cliente que está fazendo a reserva")
 
-
-class ReservaCreate(BaseModel):
-    sessao_id: uuid.UUID = Field(..., description="ID da sessão para a qual a reserva está sendo feita")
-    cliente_id: uuid.UUID = Field(..., description="ID do cliente que está fazendo a reserva")
-
+class ReservaCreate(ReservaBase):
+    pass
 
 class ReservaUpdate(BaseModel):
-    status: Optional[StatusReservaEnum] = Field(None, description="Novo status da reserva")
-
+    status: StatusReservaEnum
 
 class ReservaResponse(ReservaBase):
-    id: PydanticObjectId = Field(..., description="ID único da reserva no MongoDB")
-
+    id: str = Field(..., description="ID único da reserva no MongoDB")
+    status: StatusReservaEnum
+    data_reserva: datetime
+    
     class Config:
         from_attributes = True
-        json_encoders = {PydanticObjectId: str}  # Para serializar o ObjectId para string no JSON
