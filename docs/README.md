@@ -10,6 +10,9 @@ A pasta `adr` documenta as principais decisões arquiteturais tomadas ao longo d
 |-------------|----------------------------------------------------------------|-----------|
 | [`adr-001`](adr/adr-001-uso-de-postgres-e-mongodb.md) | Detalha a decisão de adotar PostgreSQL para dados menos voláteis e MongoDB para reservas. | Aprovado  |
 | [`adr-002`](adr/adr-002-uso-de-fastapi-e-react.md) | Justifica a escolha de FastAPI para o backend e React para o frontend. | Aprovado  |
+| [`adr-004`](adr/adr-004-estrategia-validacao.md) | Define a estratégia de validação de dados, separando formato e existência. | Aprovado   |
+| [`adr-005`](adr/adr-005-convencao-camadas.md) | Estabelece a convenção de camadas: Controller, Service e Repository. | Aprovado   |
+| [`adr-006`](adr/adr-006-gerenciamento-configuracao-env.md) | Gerenciamento de configuração via arquivos .env. | Aprovado   |
 
 ## Diagramas
 
