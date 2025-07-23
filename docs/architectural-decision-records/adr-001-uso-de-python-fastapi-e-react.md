@@ -1,6 +1,6 @@
 # ADR-002: Escolha de FastAPI e React para Backend e Frontend
 
-**Status:** A ser revisado
+**Status:** Aprovado
 
 ## Contexto
 
