@@ -1,0 +1,41 @@
+@startuml DriveInCinema
+title Diagrama de Classes - Cinema Drive-in
+
+!theme crt-amber
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+class Cliente {
+  + nome: string
+  + email: string
+  + placa: string
+}
+
+class Reserva {
+  + status: string
+}
+
+class Sessao {
+  + data: date
+  + horario: time
+  + precoPorVeiculo: decimal
+}
+
+class Filme {
+  + titulo: string
+  + diretor: string
+  + genero: Genero
+  + duracaoMinutos: int
+  + classificacao: string
+}
+
+class Genero {
+  + nome: string
+}
+
+Cliente "1" -- "0..*" Reserva : faz >
+Filme "1" -- "0..*" Sessao : é exibido em >
+Sessao "1" -- "0..*" Reserva : contém <
+Filme "0..*" -- "0..*" Genero : pertence a
+
+@enduml

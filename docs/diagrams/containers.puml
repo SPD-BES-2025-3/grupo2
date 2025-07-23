@@ -1,0 +1,33 @@
+@startuml DriveInCinema
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+top to bottom direction
+SHOW_PERSON_OUTLINE()
+
+title Diagrama de Contêineres - Sistema de Cinema Drive-in
+
+Person(cliente, "Cliente do Drive-in", "Pessoa que deseja consultar filmes e fazer uma reserva.")
+
+System_Boundary(front, "Frontend") {
+    Container(frontend, "Aplicação Frontend", "React", "Permite que clientes consultem filmes, sessões e façam reservas.")
+}
+
+System_Boundary(back, "Backend") {
+    Container(backend, "API Backend", "Python/FastAPI", "Gerencia a lógica de negócio para reservas, sessões, filmes e clientes.")
+    Container(plate_verifier, "Serviço de Verificação de Placa", "Python", "Consome eventos para verificar placas de veículos.")
+}
+
+System_Boundary(data, "Data Layer") {
+    ContainerDb(postgres, "Banco de Dados Relacional", "PostgreSQL", "Armazena dados de Clientes, Filmes, Sessões e Reservas.")
+    ContainerDb(mongodb, "Banco de Dados NoSQL", "MongoDB", "Armazena logs de atividade e dados de sessão de usuário.")
+    ContainerDb(message_queue, "Fila de Mensagens", "MQTT Broker", "Comunicação assíncrona entre serviços.")
+}
+
+Rel(cliente, frontend, "Usa para consultar filmes e fazer reservas", "HTTPS")
+Rel_R(frontend, backend, "Faz chamadas à API", "HTTPS/JSON")
+Rel(backend, postgres, "Lê e escreve dados das entidades", "ORM/SQL")
+Rel(backend, mongodb, "Grava logs de atividade", "Driver/ODM")
+Rel(backend, message_queue, "Publica evento para verificação de placa", "MQTT")
+Rel(plate_verifier, message_queue, "Consome evento de verificação", "MQTT")
+
+@enduml
