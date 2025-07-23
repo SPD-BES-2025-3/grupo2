@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from .config_name import ConfigName
 
 class ConfigManager:
@@ -11,6 +12,9 @@ class ConfigManager:
         return cls._instance
     
     def __load_env(self):
+        # Carregar variáveis do arquivo .env
+        load_dotenv()
+        
         self._env = {
             ConfigName.APP_PORT: os.getenv(ConfigName.APP_PORT, "8000"),
 
