@@ -19,12 +19,10 @@ env_path = Path(__file__).resolve().parent.parent.parent / ".env.example"
 print(f"[DEBUG] Procurando .env em: {env_path}")
 load_dotenv(dotenv_path=env_path)
 
-db_url = os.getenv("DATABASE_URL")
-if db_url is None:
-    db_url = (
-        f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
-        f"@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
-    )
+db_url = (
+    f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
+    f"@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
+)
 print("[DEBUG] db_url:", db_url)
 
 

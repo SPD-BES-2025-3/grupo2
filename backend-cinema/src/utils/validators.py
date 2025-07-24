@@ -1,6 +1,7 @@
 import datetime
 import re
 import uuid
+from models.filme_model import ClassificacaoIndicativaEnum
 from repositories import filme_repository
 
 # ==================== VALIDAÇÕES DE CLIENTE ====================
@@ -63,10 +64,12 @@ def validar_duracao_filme(duracao: int) -> bool:
         return False
     return True
 
-def validar_nota_filme(nota: float) -> bool:
-    if not isinstance(nota, float) or nota < 0.0 or nota > 10.0:
+def validar_classificacao_indicativa(classificacao: str) -> bool:
+    try:
+        ClassificacaoIndicativaEnum(classificacao)
+        return True
+    except ValueError:
         return False
-    return True
 
 # ==================== VALIDAÇÕES DE SESSÂO ====================
 

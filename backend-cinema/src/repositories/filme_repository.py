@@ -17,7 +17,7 @@ class FilmeRepository:
                 diretor=filme_data.diretor,
                 generos=filme_data.generos,
                 duracao_minutos=filme_data.duracao_minutos,
-                nota=filme_data.nota
+                classificacao_indicativa=filme_data.classificacao_indicativa
             )
             
             self.db.add(db_filme)
