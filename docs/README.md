@@ -13,6 +13,8 @@ A pasta `adr` documenta as principais decisões arquiteturais tomadas ao longo d
 | [`adr-004`](adr/adr-004-estrategia-validacao.md) | Define a estratégia de validação de dados, separando formato e existência. | Aprovado   |
 | [`adr-005`](adr/adr-005-convencao-camadas.md) | Estabelece a convenção de camadas: Controller, Service e Repository. | Aprovado   |
 | [`adr-006`](adr/adr-006-gerenciamento-configuracao-env.md) | Gerenciamento de configuração via arquivos .env. | Aprovado   |
+| [`adr-007`](adr/adr-007-uso-beanie-odm-mongodb.md) | Define o uso do ODM Beanie para interação com MongoDB. | Aprovado   |
+| [`adr-008`](adr/adr-008-servico-ocr-interno.md) | Estabelece a implementação de um serviço OCR interno para processamento de imagens. | Aprovado   |
 
 ## Diagramas
 
