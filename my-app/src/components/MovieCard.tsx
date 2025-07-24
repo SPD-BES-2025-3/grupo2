@@ -3,8 +3,8 @@ import { type Movie, type Session } from "../types/entities";
 
 type MovieCardProps = {
   movie: Movie;
-  sessions?: Session[];
-  onReserve?: (sessionId: number) => void;
+  sessions: Session[];
+  onReserve: (sessionId: number) => void;
 };
 
 const MovieCard: React.FC<MovieCardProps> = ({
@@ -12,8 +12,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
   sessions,
   onReserve,
 }) => {
-  const movieGenres = movie.genre_ids.map((id) => `${id}`).join(", "); // Replace with actual genre names if available
-
   return (
     <div
       style={{
@@ -21,42 +19,45 @@ const MovieCard: React.FC<MovieCardProps> = ({
         borderRadius: "1rem",
         padding: "1rem",
         background: "#666",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flex: "1",
       }}
     >
-      <h2 className="text-xl font-bold">{movie.title}</h2>
-      <p style={{ margin: "0" }}>Duração: {movie.duration_min} minutos</p>
-      <p style={{ margin: "0" }}>Classificação: {movie.rating}</p>
-      <p style={{ margin: "0" }}>Gênero(s): {movieGenres}</p>
-      {sessions && onReserve && (
-        <>
-          <h3 className="font-semibold mt-2">Available Sessions:</h3>
-          <ul style={{ paddingRight: "1rem" }}>
-            {sessions.map((session) => (
-              <li
-                key={session.id}
-                className="flex justify-between items-center"
+      <img
+        src={movie.poster}
+        style={{
+          width: "200px",
+          height: "300px",
+          objectFit: "cover",
+          borderRadius: "0.5rem",
+        }}
+      />
+      <h2 style={{ maxWidth: "70%" }}>{movie.title}</h2>
+      <div>
+        <h3 style={{ marginTop: "0" }}>Sessões disponíveis:</h3>
+        <ul style={{ paddingRight: "1rem", marginTop: "0" }}>
+          {sessions.map((session) => (
+            <li key={session.id} className="flex justify-between items-center">
+              <button
+                style={{
+                  display: "block",
+                  paddingRight: "0.4rem",
+                  paddingLeft: "0.4rem",
+                  paddingTop: "0.1rem",
+                  paddingBottom: "0.1rem",
+                }}
+                onClick={() => onReserve(session.id)}
               >
-                <span>
-                  {new Date(session.start_time).toLocaleString()} - $
-                  {session.price_per_vehicle}
-                </span>
-                <button
-                  style={{
-                    display: "block",
-                    paddingRight: "0.4rem",
-                    paddingLeft: "0.4rem",
-                    paddingTop: "0.1rem",
-                    paddingBottom: "0.1rem",
-                  }}
-                  onClick={() => onReserve(session.id)}
-                >
-                  Reserve
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+                {new Date(session.start_time).toLocaleString().slice(0, 17)} - $
+                {session.price_per_vehicle.toFixed(2).replace(".", ",")}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

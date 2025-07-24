@@ -6,32 +6,42 @@ import {
 } from "./entities";
 
 export const genres: Genre[] = [
-  { id: 1, name: "Ação" },
-  { id: 2, name: "Comédia" },
-  { id: 3, name: "Drama" },
+  { id: 1, name: "Comédia" },
+  { id: 2, name: "Animação" },
+  { id: 3, name: "Ação" },
+  { id: 4, name: "Aventura" },
+  { id: 5, name: "Crime" },
+  { id: 6, name: "Drama" },
+  { id: 7, name: "Terror" },
 ];
 
 export const movies: Movie[] = [
   {
     id: 1,
-    title: "Missão Explosiva",
+    title: "Gente Grande",
     duration_min: 120,
     rating: "PG-13",
     genre_ids: [1],
+    poster:
+      "https://m.media-amazon.com/images/M/MV5BMjA0ODYwNzU5Nl5BMl5BanBnXkFtZTcwNTI1MTgxMw@@._V1_SX300.jpg",
   },
   {
     id: 2,
-    title: "Rindo à Toa",
-    duration_min: 95,
+    title: "Gato de Botas 2: O Último Pedido",
+    duration_min: 102,
     rating: "PG",
-    genre_ids: [2],
+    genre_ids: [2, 3, 4],
+    poster:
+      "https://m.media-amazon.com/images/M/MV5BMzg0MWUzMjctYjVlOS00NzVjLWIwZDMtNzg1YzNkYzdjNTMwXkEyXkFqcGc@._V1_SX300.jpg",
   },
   {
     id: 3,
-    title: "Lágrimas do Amanhã",
-    duration_min: 110,
-    rating: "PG-13",
-    genre_ids: [3],
+    title: "Psicopata Americano",
+    duration_min: 102,
+    rating: "R",
+    genre_ids: [5, 6, 7],
+    poster:
+      "https://m.media-amazon.com/images/M/MV5BNzBjM2I5ZjUtNmIzNy00OGNkLWIwZDMtOTAwYWUwMzA2YjdlXkEyXkFqcGc@._V1_SX300.jpg",
   },
 ];
 

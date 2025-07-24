@@ -16,16 +16,16 @@ const ReservationsSection: React.FC = () => {
 
   return (
     <div style={{ paddingTop: "2rem" }}>
-      <h2>Reservations</h2>
+      <h2>Reservas</h2>
       {reservations.length === 0 ? (
-        <p>No reservations made yet.</p>
+        <p>Nenhuma reserva feita.</p>
       ) : (
         <ul>
           {reservations.map((reservation) => (
             <li key={reservation.id} className="reservation-item">
               <div>
-                <p>Customer Name: {reservation.customer_name}</p>
-                <p>Vehicle Plate: {reservation.vehicle_plate}</p>
+                <p>Cliente: {reservation.customer_name}</p>
+                <p>Placa do veículo: {reservation.vehicle_plate}</p>
                 <img
                   src={reservation.vehicle_plate_img}
                   alt="Vehicle Plate"

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useReservationStore } from "../stores/useReservationStore";
 import { useMovieStore } from "../stores/useMovieStore";
-import MovieCard from "./MovieCard";
+import { genres } from "../types/mocks";
 
 const ReservationModal = () => {
   const {
@@ -16,6 +16,12 @@ const ReservationModal = () => {
   const { sessions, movies, selectedSession } = useMovieStore();
   console.log(sessions);
   const movie = movies.find((m) => m.id === selectedSession?.movie_id);
+  const genres_names = movie?.genre_ids
+    .map((g) => {
+      const genre = genres.find((genre) => genre.id === g);
+      return genre?.name;
+    })
+    .join(", ");
 
   const [customerName, setCustomerName] = React.useState(
     selectedReservation?.customer_name || ""
@@ -23,19 +29,11 @@ const ReservationModal = () => {
   const [vehiclePlate, setVehiclePlate] = React.useState(
     selectedReservation?.vehicle_plate || ""
   );
-  const [vehiclePlateImg, setVehiclePlateImg] = React.useState(
-    selectedReservation?.vehicle_plate_img || ""
-  );
-  const [sessionId, setSessionId] = React.useState(
-    selectedReservation?.session_id || ""
-  );
 
   useEffect(() => {
     if (selectedReservation) {
       setCustomerName(selectedReservation.customer_name);
       setVehiclePlate(selectedReservation.vehicle_plate);
-      setVehiclePlateImg(selectedReservation.vehicle_plate_img);
-      setSessionId(selectedReservation.session_id);
     } else {
       // clearSelectedReservation();
     }
@@ -45,10 +43,10 @@ const ReservationModal = () => {
     e.preventDefault();
     const reservationData = {
       id: selectedReservation ? selectedReservation.id : Date.now(),
-      session_id: Number(sessionId),
+      session_id: selectedSession?.id || 0,
       customer_name: customerName,
       vehicle_plate: vehiclePlate,
-      vehicle_plate_img: vehiclePlateImg,
+      vehicle_plate_img: "",
     };
 
     if (selectedReservation) {
@@ -71,28 +69,39 @@ const ReservationModal = () => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          bgcolor: "background.paper",
-          border: "2px solid #000",
+          bgcolor: "#666",
+          border: "2px solid #fff",
           boxShadow: 24,
         }}
       >
-        <h2 className="modalText" style={{ marginTop: "0" }}>
+        <p style={{ marginTop: "0", fontSize: "2rem", fontWeight: "700" }}>
           {selectedReservation ? "Editar Reserva" : "Nova Reserva"}
-        </h2>
+        </p>
         <div style={{ display: "flex", gap: "3rem" }}>
-          {movie && <MovieCard movie={movie} />}
+          <img src={movie?.poster} style={{ borderRadius: "0.5rem" }} />
           <form onSubmit={handleSubmit} style={{ padding: "1rem" }}>
-            <p className="modalText" style={{ fontSize: "1.1rem" }}>
+            <h2>{movie?.title}</h2>
+            <p style={{ margin: "0" }}>
+              Duração: {movie?.duration_min} minutos
+            </p>
+            <p style={{ margin: "0" }}>Classificação: {movie?.rating}</p>
+            <p style={{ margin: "0" }}>Gênero(s): {genres_names}</p>
+            <p style={{ fontSize: "1.1rem" }}>
               <span style={{ fontWeight: "500" }}>Horário: </span>
-              {new Date(selectedSession?.start_time || "").toLocaleString()} -
-              <span style={{ fontWeight: "500" }}>Preço: </span>$
-              {selectedSession?.price_per_vehicle}
+              {new Date(selectedSession?.start_time || "")
+                .toLocaleString()
+                .slice(0, 17)}{" "}
+              -<span style={{ fontWeight: "500" }}> Preço: </span>$
+              {selectedSession?.price_per_vehicle.toFixed(2).replace(".", ",")}
             </p>
             <div style={{ display: "flex", gap: "1rem" }}>
               <div>
                 <label
-                  className="modalText"
-                  style={{ display: "block", fontWeight: "500" }}
+                  style={{
+                    display: "block",
+                    fontWeight: "500",
+                    marginBottom: "0.2rem",
+                  }}
                 >
                   Nome
                 </label>
@@ -101,13 +110,20 @@ const ReservationModal = () => {
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   required
-                  style={{ padding: "0.2rem", fontSize: "0.85rem" }}
+                  style={{
+                    padding: "0.25rem",
+                    fontSize: "0.9rem",
+                    borderRadius: "0.25rem",
+                  }}
                 />
               </div>
               <div>
                 <label
-                  className="modalText"
-                  style={{ display: "block", fontWeight: "500" }}
+                  style={{
+                    display: "block",
+                    fontWeight: "500",
+                    marginBottom: "0.2rem",
+                  }}
                 >
                   Placa do veículo
                 </label>
@@ -116,6 +132,11 @@ const ReservationModal = () => {
                   value={vehiclePlate}
                   onChange={(e) => setVehiclePlate(e.target.value)}
                   required
+                  style={{
+                    padding: "0.25rem",
+                    fontSize: "0.9rem",
+                    borderRadius: "0.25rem",
+                  }}
                 />
               </div>
             </div>
