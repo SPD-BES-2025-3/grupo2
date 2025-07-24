@@ -12,9 +12,9 @@ const ReservationModal = () => {
     addReservation,
     isOpen,
     close,
+    reset,
   } = useReservationStore();
-  const { sessions, movies, selectedSession } = useMovieStore();
-  console.log(sessions);
+  const { movies, selectedSession } = useMovieStore();
   const movie = movies.find((m) => m.id === selectedSession?.movie_id);
   const genres_names = movie?.genre_ids
     .map((g) => {
@@ -34,10 +34,15 @@ const ReservationModal = () => {
     if (selectedReservation) {
       setCustomerName(selectedReservation.customer_name);
       setVehiclePlate(selectedReservation.vehicle_plate);
-    } else {
-      // clearSelectedReservation();
     }
   }, [selectedReservation]);
+
+  const handleClose = () => {
+    reset();
+    setCustomerName("");
+    setVehiclePlate("");
+    close();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,11 +59,11 @@ const ReservationModal = () => {
     } else {
       addReservation(reservationData);
     }
-    close();
+    handleClose();
   };
 
   return (
-    <Modal open={isOpen} onClose={close}>
+    <Modal open={isOpen} onClose={handleClose}>
       <Box
         sx={{
           display: "flex",
