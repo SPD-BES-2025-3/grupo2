@@ -97,29 +97,24 @@ O projeto utiliza a seguinte stack tecnológica:
 
 Para executar este projeto, é necessário ter instalado em sua máquina:
 
-- **Docker**: Para orquestração dos containers de banco de dados
-- **Python 3.13**: Para execução do backend FastAPI
+- **Git**: Para clonar o repositório
+- **Docker**: Para orquestração dos containers do projeto
 
 ### 4.2 Instruções de Execução
 
 Execute os seguintes comandos em ordem para inicializar o projeto:
 
 ```bash
-# 1. Navegue até o diretório do projeto
+
+# 1. Clone o repositório
+git clone https://github.com/SPD-BES-2025-3/grupo2.git
+
+# 2. Navegue até o diretório do projeto
 cd grupo2
 
-# 2. Inicie os containers dos bancos de dados
+# 3. Inicie o projeto com Docker Compose
 docker compose up -d --build
 
-# 3. Navegue até o backend
-cd backend-cinema
-cd src
-
-# 4. Execute as migrações do banco de dados
-alembic upgrade head
-
-# 5. Inicie o servidor FastAPI
-python main.py
 ```
 
 Após executar esses comandos, o sistema estará disponível em `http://localhost:8000`.
@@ -129,5 +124,4 @@ Após executar esses comandos, o sistema estará disponível em `http://localhos
 O FastAPI gera automaticamente a documentação interativa da API. Após iniciar o servidor, você pode acessar:
 
 - **Swagger UI**: `http://localhost:8000/docs` - Interface interativa para testar os endpoints
-
-A documentação Swagger permite testar todos os endpoints da API diretamente no navegador, visualizar os schemas de dados e entender como utilizar cada funcionalidade do sistema.
+- **ReDoc**: `http://localhost:8000/redoc` - Documentação detalhada da API
