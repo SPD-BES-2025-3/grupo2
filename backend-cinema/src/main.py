@@ -1,7 +1,11 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+import asyncio
+from motor.motor_asyncio import AsyncIOMotorClient
+from beanie import init_beanie
 from config.database import engine, Base
+from models.reserva_model import Reserva
 from controllers.cliente_controller import router as cliente_router
 from controllers.filme_controller import router as filme_router
 from controllers.sessao_controller import router as sessao_router
@@ -18,6 +22,7 @@ app = FastAPI(
     description="API para gerenciamento de cinema drive-in",
     version="1.0.0"
 )
+
 
 # Configurar CORS
 app.add_middleware(
@@ -48,6 +53,9 @@ async def startup_event():
     """Eventos executados na inicialização da aplicação"""
     # Inicializar banco PostgreSQL
     print("PostgreSQL inicializado com sucesso!")
+    database_url = os.getenv("DATABASE_URL")
+    client = AsyncIOMotorClient(database_url)
+    await init_beanie(database=client.cinema_db, document_models=[Reserva])
 
 if __name__ == "__main__":
     import uvicorn

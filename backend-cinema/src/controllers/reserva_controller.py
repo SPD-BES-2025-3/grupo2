@@ -1,20 +1,22 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Query
 from typing import List
+from sqlalchemy.orm import Session
 from services.reserva_service import ReservaService
 from repositories.reserva_repository import ReservaRepository
 from repositories.cliente_repository import ClienteRepository
 from repositories.sessao_repository import SessaoRepository
 from schemas.reserva_schema import ReservaCreate, ReservaResponse
 from models.reserva_model import StatusReservaEnum
+from config.database import get_db
 
 router = APIRouter(prefix="/reservas", tags=["reservas"])
 
-def get_reserva_service() -> ReservaService:
+def get_reserva_service(db: Session = Depends(get_db)) -> ReservaService:
     """Dependency injection para ReservaService"""
     return ReservaService(
         ReservaRepository(),
-        ClienteRepository(),
-        SessaoRepository()
+        ClienteRepository(db),
+        SessaoRepository(db)
     )
 
 @router.post("/", response_model=ReservaResponse, status_code=status.HTTP_201_CREATED)
