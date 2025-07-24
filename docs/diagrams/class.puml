@@ -13,6 +13,7 @@ class Cliente {
 
 class Reserva {
   + status: string
+  + dataReserva: datetime
 }
 
 class Sessao {
@@ -26,16 +27,16 @@ class Filme {
   + diretor: string
   + genero: Genero
   + duracaoMinutos: int
-  + classificacao: string
+  + classificacaoIndicativa: string
 }
 
 class Genero {
   + nome: string
 }
 
-Cliente "1" -- "0..*" Reserva : faz >
-Filme "1" -- "0..*" Sessao : é exibido em >
-Sessao "1" -- "0..*" Reserva : contém <
+Cliente "1" o-- "0..*" Reserva : faz >
+Filme "1" *-- "0..*" Sessao : é exibido em >
+Sessao "1" *-- "0..*" Reserva : contém <
 Filme "0..*" -- "0..*" Genero : pertence a
 
 @enduml

@@ -8,6 +8,7 @@ export type Movie = {
   title: string;
   duration_min: number;
   rating: string;
+  poster: string;
   genre_ids: number[]; // relates to Genre[]
 };
 

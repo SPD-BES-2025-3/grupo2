@@ -1,26 +1,24 @@
 import create from "zustand";
 import { type Reservation } from "../types/entities";
 
-interface ReservationStore {
+type ReservationStore = {
   reservations: Reservation[];
-  selectedReservation: Reservation | null;
+  selectedReservation?: Reservation;
 
   addReservation: (reservation: Reservation) => void;
-  updateReservation: (
-    id: number,
-    updatedReservation: Partial<Reservation>
-  ) => void;
+  updateReservation: (id: number, updatedReservation: Reservation) => void;
   deleteReservation: (id: number) => void;
-  selectReservation: (reservation: Reservation | null) => void;
+  selectReservation: (id: number) => void;
+  reset: () => void;
 
   isOpen: boolean;
   open: () => void;
   close: () => void;
-}
+};
 
 export const useReservationStore = create<ReservationStore>((set) => ({
   reservations: [],
-  selectedReservation: null,
+  selectedReservation: undefined,
   addReservation: (reservation) =>
     set((state) => ({
       reservations: [...state.reservations, reservation],
@@ -39,7 +37,14 @@ export const useReservationStore = create<ReservationStore>((set) => ({
         (reservation) => reservation.id !== id
       ),
     })),
-  selectReservation: (reservation) => set({ selectedReservation: reservation }),
+  selectReservation: (id) => {
+    set((state) => ({
+      selectedReservation: state.reservations.find((s) => s.id === id),
+    }));
+  },
+  reset: () => {
+    set({ selectedReservation: undefined });
+  },
 
   isOpen: false,
   open: () => set(() => ({ isOpen: true })),

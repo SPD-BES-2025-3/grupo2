@@ -11,6 +11,7 @@ type MovieStore = {
   addMovie: (movie: Movie) => void;
   updateMovie: (id: number, updatedMovie: Partial<Movie>) => void;
   deleteMovie: (id: number) => void;
+
   addSession: (session: Session) => void;
   updateSession: (id: number, updatedSession: Partial<Session>) => void;
   deleteSession: (id: number) => void;
@@ -34,6 +35,7 @@ export const useMovieStore = create<MovieStore>((set) => ({
     set((state) => ({
       movies: state.movies.filter((movie) => movie.id !== id),
     })),
+
   addSession: (session) =>
     set((state) => ({ sessions: [...state.sessions, session] })),
   updateSession: (id, updatedSession) =>

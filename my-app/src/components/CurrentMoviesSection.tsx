@@ -13,7 +13,7 @@ const CurrentMoviesSection: React.FC = () => {
 
   return (
     <div className="current-movies-section">
-      <h2>Current Movies</h2>
+      <h2>Filmes em Cartaz</h2>
       <div style={{ display: "flex", gap: "4rem" }}>
         {movies.map((movie) => {
           const movieSessions = sessions.filter((s) => s.movie_id === movie.id);

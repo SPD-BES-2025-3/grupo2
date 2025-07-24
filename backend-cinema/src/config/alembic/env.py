@@ -1,5 +1,6 @@
 from logging.config import fileConfig
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -8,24 +9,25 @@ from sqlalchemy import pool
 
 from alembic import context
 
+# Adicionar o diretório src ao Python path para as importações funcionarem
+src_path = str(Path(__file__).resolve().parent.parent.parent)
+sys.path.insert(0, src_path)
+print(f"[DEBUG] Adicionado ao sys.path: {src_path}")
+
 from config.database import Base
 from models.filme_model import Filme
 from models.cliente_model import Cliente
 from models.sessao_model import Sessao
 
-
-
-# Caminho absoluto para o .env na pasta backend-cinema
-env_path = Path(__file__).resolve().parent.parent.parent / ".env.example"
+# Caminho absoluto para o .env na raiz do projeto
+env_path = Path(__file__).resolve().parent.parent.parent.parent.parent / ".env"
 print(f"[DEBUG] Procurando .env em: {env_path}")
 load_dotenv(dotenv_path=env_path)
 
-db_url = os.getenv("DATABASE_URL")
-if db_url is None:
-    db_url = (
-        f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
-        f"@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
-    )
+db_url = (
+    f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
+    f"@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DATABASE')}"
+)
 print("[DEBUG] db_url:", db_url)
 
 

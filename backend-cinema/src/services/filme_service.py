@@ -1,6 +1,9 @@
 from repositories.filme_repository import FilmeRepository
 from schemas.filme_schema import FilmeCreate, FilmeUpdate, FilmeResponse
-from utils.validators import validar_titulo_filme, validar_diretor_filme, validar_duracao_filme, validar_nota_filme, validar_generos_filme
+from utils.validators import (
+    validar_titulo_filme, validar_diretor_filme, validar_duracao_filme, 
+    validar_classificacao_indicativa, validar_generos_filme
+)
 from typing import List, Optional
 import uuid
 
@@ -23,8 +26,8 @@ class FilmeService:
         if not validar_duracao_filme(filme_data.duracao_minutos):
             raise ValueError("Duração inválida")
         
-        if not validar_nota_filme(filme_data.nota):
-            raise ValueError("Nota inválida")
+        if not validar_classificacao_indicativa(filme_data.classificacao_indicativa):
+            raise ValueError("Classificação indicativa inválida")
         
         filme = self.filme_repository.criar_filme(filme_data)
         return FilmeResponse.model_validate(filme)
@@ -54,8 +57,8 @@ class FilmeService:
                 raise ValueError(f"Gêneros inválidos: {msg}")
         if filme_data.duracao_minutos and not validar_duracao_filme(filme_data.duracao_minutos):
             raise ValueError("Duração inválida")
-        if filme_data.nota and not validar_nota_filme(filme_data.nota):
-            raise ValueError("Nota inválida")
+        if filme_data.classificacao_indicativa and not validar_classificacao_indicativa(filme_data.classificacao_indicativa):
+            raise ValueError("Classificação indicativa inválida")
         filme_atualizado = self.filme_repository.atualizar_filme(filme_id, filme_data)
         if filme_atualizado:
             return FilmeResponse.model_validate(filme_atualizado)
