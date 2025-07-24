@@ -1,7 +1,7 @@
 from datetime import date, time
 from pydantic import BaseModel, Field
 from typing import List, Optional
-from utils.enums import GeneroEnum
+
 import uuid
 
 class SessaoBase(BaseModel):
