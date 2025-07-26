@@ -102,7 +102,7 @@ Para executar este projeto, é necessário ter instalado em sua máquina:
 
 ### 4.2 Instruções de Execução
 
-Execute os seguintes comandos em ordem para inicializar o projeto:
+Execute os seguintes comandos, em ordem, para inicializar o projeto:
 
 ```bash
 
@@ -119,7 +119,28 @@ docker compose up -d --build
 
 Após executar esses comandos, o sistema estará disponível em `http://localhost:8000`.
 
-### 4.3 Acessando a Documentação da API
+### 4.3 Executando os Testes Unitários
+
+O projeto inclui uma suíte completa de testes unitários para validar as operações CRUD de todas as entidades do sistema. Para executar os testes:
+
+```bash
+# 1. Navegue até o diretório de testes do backend
+cd backend-cinema/tests
+
+# 2. Execute todos os testes unitários
+python run_all_tests.py
+```
+
+**Cobertura dos Testes:**
+
+- **Cliente Service**: 10 testes CRUD (CREATE, READ, UPDATE, DELETE)
+- **Filme Service**: 9 testes CRUD com validações de título e dados
+- **Sessão Service**: 11 testes CRUD incluindo validações de filme e horário
+- **Reserva Service**: 8 testes CRUD assíncronos com validações de cliente/sessão
+
+**Total**: 38 testes cobrindo todos os cenários essenciais (sucesso, erro, validações).
+
+### 4.4 Acessando a Documentação da API
 
 O FastAPI gera automaticamente a documentação interativa da API. Após iniciar o servidor, você pode acessar:
 
