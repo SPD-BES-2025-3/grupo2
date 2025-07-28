@@ -55,21 +55,16 @@ Desenvolver um sistema para gerenciamento de um cinema Drive-in, com funcionalid
 
 ### 2.2 Objetivos Específicos
 
-- Construir uma API RESTful com FastAPI para manipulação dos dados e regras de negócio;
-- Implementar um frontend em React para interação com os usuários;
-- Utilizar PostgreSQL para o armazenamento relacional das entidades principais do domínio;
-- Utilizar MongoDB para armazenar dados não estruturados do sistema;
-- Aplicar boas práticas de documentação com Markdown;
-- Realizar testes unitários nas camadas de backend;
+- Desenvolver uma API RESTful para gerenciar as operações do cinema (filmes, sessões, reservas, etc.).
+- Criar uma interface de usuário web reativa para interação dos clientes e administradores.
+- Implementar um sistema de persistência de dados robusto, utilizando a melhor abordagem para cada tipo de informação (relacional e NoSQL).
+- Garantir a qualidade do código através de testes unitários e documentação técnica.
 
-### 2.3 Tecnologias e Ferramentas Utilizadas
+### 2.3 Arquitetura e Decisões Técnicas
 
-O projeto utiliza a seguinte stack tecnológica:
+As principais decisões arquiteturais, incluindo a escolha de tecnologias, padrões e estratégias, estão documentadas em `Architectural Decision Records` (ADRs). Essa documentação centraliza o contexto, as justificativas e as consequências de cada escolha importante feita no projeto.
 
-- **Backend:** Python com FastAPI
-- **Frontend:** React
-- **Banco de Dados Relacional:** PostgreSQL
-- **Banco de Dados NoSQL:** MongoDB
+Para detalhes sobre a stack (FastAPI, React, PostgreSQL, MongoDB, etc.) e outras decisões, consulte a [**Documentação Arquitetural**](docs/README.md).
 
 ## 3. Cronograma de Desenvolvimento
 
