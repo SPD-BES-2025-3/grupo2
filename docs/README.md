@@ -8,13 +8,14 @@ A pasta `adr` documenta as principais decisões arquiteturais tomadas ao longo d
 
 | ADR Id      | Descrição                                                      | Status    |
 |-------------|----------------------------------------------------------------|-----------|
-| [`adr-001`](adr/adr-001-uso-de-postgres-e-mongodb.md) | Detalha a decisão de adotar PostgreSQL para dados menos voláteis e MongoDB para reservas. | Aprovado  |
-| [`adr-002`](adr/adr-002-uso-de-fastapi-e-react.md) | Justifica a escolha de FastAPI para o backend e React para o frontend. | Aprovado  |
-| [`adr-004`](adr/adr-004-estrategia-validacao.md) | Define a estratégia de validação de dados, separando formato e existência. | Aprovado   |
-| [`adr-005`](adr/adr-005-convencao-camadas.md) | Estabelece a convenção de camadas: Controller, Service e Repository. | Aprovado   |
-| [`adr-006`](adr/adr-006-gerenciamento-configuracao-env.md) | Gerenciamento de configuração via arquivos .env. | Aprovado   |
-| [`adr-007`](adr/adr-007-uso-beanie-odm-mongodb.md) | Define o uso do ODM Beanie para interação com MongoDB. | Aprovado   |
-| [`adr-008`](adr/adr-008-servico-ocr-interno.md) | Estabelece a implementação de um serviço OCR interno para processamento de imagens. | Aprovado   |
+| `adr-001` | Justifica a escolha de FastAPI para o backend e React para o frontend. | Aprovado  |
+| `adr-002` | Detalha a decisão de adotar PostgreSQL e MongoDB. | Aprovado  |
+| `adr-003` | Define o uso do Alembic para migrações do banco de dados PostgreSQL. | Aprovado  |
+| `adr-004` | Define a estratégia de validação de dados, separando formato e existência. | Aprovado  |
+| `adr-005` | Estabelece a convenção de camadas: Controller, Service e Repository. | Aprovado  |
+| `adr-006` | Define o uso de DTOs e Schemas para transferência e validação de dados. | Aprovado  |
+| `adr-007` | Define o uso do ODM Beanie para interação com MongoDB. | Aprovado  |
+| `adr-008` | Estabelece a implementação de um serviço OCR interno ao backend. | Aprovado  |
 
 ## Diagramas
 
