@@ -84,12 +84,12 @@ O projeto utiliza a seguinte stack tecnológica:
 |7|Desenvolvimento do Frontend React|21/07/2025|21/07/2025|Felipe|✅ Concluído|
 |8|Implementação do CRUD de Sessões|22/07/2025|22/07/2025|Mauro|✅ Concluído|
 |9|Configuração final de migrações Alembic|22/07/2025|22/07/2025|Joseppe/Mauro|✅ Concluído|
-|10|Implementação do CRUD de Reservas|22/07/2025|24/07/2025|Mauro|⏳ Pendente|
+|10|Implementação do CRUD de Reservas|22/07/2025|23/07/2025|Mauro|✅ Concluído|
 |11|Integração com o sistema de detecção de placas|22/07/2025|27/07/2025|João|⏳ Pendente|
 |12|Implementação do middleware|22/07/2025|27/07/2025|Indefinido|⏳ Pendente|
 |13|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
 |14|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
-|15|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⚠️ Pendente|
+|15|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
 
 ## 4. Como Rodar o Projeto
 
