@@ -60,7 +60,24 @@ Desenvolver um sistema para gerenciamento de um cinema Drive-in, com funcionalid
 - Implementar um sistema de persistência de dados robusto, utilizando a melhor abordagem para cada tipo de informação (relacional e NoSQL).
 - Garantir a qualidade do código através de testes unitários e documentação técnica.
 
-### 2.3 Arquitetura e Decisões Técnicas
+### 2.3 Sistema de Reconhecimento de Placas com IA
+
+O projeto inclui um sistema inteligente de reconhecimento de placas veiculares que automatiza o processo de entrada no cinema Drive-in. Este sistema combina tecnologias de OCR (Optical Character Recognition) com processamento assíncrono via MQTT para proporcionar uma experiência fluida aos clientes.
+
+**Características Principais:**
+- **OCR Inteligente**: Reconhecimento automático de placas brasileiras (formatos antigo e Mercosul)
+- **Processamento Assíncrono**: Integração via MQTT para comunicação em tempo real entre câmeras e sistema
+- **Validação Automática**: Verificação de formato e associação com reservas existentes
+- **Controle de Acesso**: Liberação automática baseada na validação da placa detectada
+
+**Fluxo de Funcionamento:**
+1. Câmera na entrada captura imagem do veículo
+2. Sistema OCR processa a imagem e extrai a placa
+3. Placa é validada contra reservas ativas via MQTT
+4. Acesso é liberado automaticamente se reserva válida for encontrada
+5. Logs detalhados são mantidos para auditoria
+
+### 2.4 Arquitetura e Decisões Técnicas
 
 As principais decisões arquiteturais, incluindo a escolha de tecnologias, padrões e estratégias, estão documentadas em `Architectural Decision Records` (ADRs). Essa documentação centraliza o contexto, as justificativas e as consequências de cada escolha importante feita no projeto.
 
@@ -80,7 +97,10 @@ Para detalhes sobre a stack (FastAPI, React, PostgreSQL, MongoDB, etc.) e outras
 |8|Implementação do CRUD de Sessões|22/07/2025|22/07/2025|Mauro|✅ Concluído|
 |9|Configuração final de migrações Alembic|22/07/2025|22/07/2025|Joseppe/Mauro|✅ Concluído|
 |10|Implementação do CRUD de Reservas|22/07/2025|23/07/2025|Mauro|✅ Concluído|
-|11|Integração com o sistema de detecção de placas|22/07/2025|27/07/2025|João|⏳ Pendente|
+|11|Sistema de Reconhecimento de Placas com IA|22/07/2025|27/07/2025|João|⏳ Pendente|
+|11.1|• Implementação do OCR Service com validação brasileira|22/07/2025|24/07/2025|João|⏳ Pendente|
+|11.2|• Integração MQTT para eventos assíncronos|24/07/2025|25/07/2025|João|⏳ Pendente|
+|11.3|• Simuladores de hardware e testes de integração|25/07/2025|27/07/2025|João|⏳ Pendente|
 |12|Implementação do middleware|22/07/2025|27/07/2025|Indefinido|⏳ Pendente|
 |13|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
 |14|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
