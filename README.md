@@ -9,10 +9,19 @@ O projeto consiste no desenvolvimento de um sistema para gerenciamento de um cin
    1.2 [Descrição do Problema](#12-descrição-do-problema)  
    1.3 [Motivação](#13-motivação)
 
-2. [Plano do Projeto](#2-plano-do-projeto)  
-   2.1 [Objetivo Geral](#21-objetivo-geral)  
-   2.2 [Objetivos Específicos](#22-objetivos-específicos)  
-   2.3 [Tecnologias e Ferramentas Utilizadas](#23-tecnologias-e-ferramentas-utilizadas)
+2. [Plano do Projeto](#2-plano-do-projeto)
+   2.1 [Objetivo Geral](#21-objetivo-geral)
+   2.2 [Objetivos Específicos](#22-objetivos-específicos)
+   2.3 [Sistema de Reconhecimento de Placas com IA](#23-sistema-de-reconhecimento-de-placas-com-ia)
+   2.4 [Arquitetura e Decisões Técnicas](#24-arquitetura-e-decisões-técnicas)
+
+3. [Cronograma de Desenvolvimento](#3-cronograma-de-desenvolvimento)
+
+4. [Como Rodar o Projeto](#4-como-rodar-o-projeto)
+   4.1 [Pré-requisitos](#41-pré-requisitos)
+   4.2 [Instruções de Execução](#42-instruções-de-execução)
+   4.3 [Executando os Testes Unitários](#43-executando-os-testes-unitários)
+   4.4 [Acessando a Documentação da API](#44-acessando-a-documentação-da-api)
 
 ## 1. Introdução
 
@@ -65,12 +74,14 @@ Desenvolver um sistema para gerenciamento de um cinema Drive-in, com funcionalid
 O projeto inclui um sistema inteligente de reconhecimento de placas veiculares que automatiza o processo de entrada no cinema Drive-in. Este sistema combina tecnologias de OCR (Optical Character Recognition) com processamento assíncrono via MQTT para proporcionar uma experiência fluida aos clientes.
 
 **Características Principais:**
+
 - **OCR Inteligente**: Reconhecimento automático de placas brasileiras (formatos antigo e Mercosul)
 - **Processamento Assíncrono**: Integração via MQTT para comunicação em tempo real entre câmeras e sistema
 - **Validação Automática**: Verificação de formato e associação com reservas existentes
 - **Controle de Acesso**: Liberação automática baseada na validação da placa detectada
 
 **Fluxo de Funcionamento:**
+
 1. Câmera na entrada captura imagem do veículo
 2. Sistema OCR processa a imagem e extrai a placa
 3. Placa é validada contra reservas ativas via MQTT
@@ -101,10 +112,9 @@ Para detalhes sobre a stack (FastAPI, React, PostgreSQL, MongoDB, etc.) e outras
 |11.1|• Implementação do OCR Service com validação brasileira|22/07/2025|24/07/2025|João|⏳ Pendente|
 |11.2|• Integração MQTT para eventos assíncronos|24/07/2025|25/07/2025|João|⏳ Pendente|
 |11.3|• Simuladores de hardware e testes de integração|25/07/2025|27/07/2025|João|⏳ Pendente|
-|12|Implementação do middleware|22/07/2025|27/07/2025|Indefinido|⏳ Pendente|
-|13|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
-|14|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
-|15|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
+|12|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
+|13|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
+|14|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
 
 ## 4. Como Rodar o Projeto
 
