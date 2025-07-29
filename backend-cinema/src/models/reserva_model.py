@@ -11,6 +11,7 @@ class StatusReservaEnum(str, Enum):
     PENDENTE = "pendente"
     CONFIRMADA = "confirmada"
     CANCELADA = "cancelada"
+    FINALIZADA = "finalizada"
 
 class Reserva(Document):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")

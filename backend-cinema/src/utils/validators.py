@@ -122,8 +122,9 @@ def validar_transicao_status(status_atual: str, novo_status: str) -> bool:
     
     transicoes_validas = {
         StatusReservaEnum.PENDENTE: [StatusReservaEnum.CONFIRMADA, StatusReservaEnum.CANCELADA],
-        StatusReservaEnum.CONFIRMADA: [StatusReservaEnum.CANCELADA],
-        StatusReservaEnum.CANCELADA: []  # Status final
+        StatusReservaEnum.CONFIRMADA: [StatusReservaEnum.CANCELADA, StatusReservaEnum.FINALIZADA],
+        StatusReservaEnum.CANCELADA: [],  # Status final
+        StatusReservaEnum.FINALIZADA: []  # Status final
     }
     
     return novo_status in transicoes_validas.get(status_atual, [])

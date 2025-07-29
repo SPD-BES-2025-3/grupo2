@@ -36,14 +36,14 @@ Implementar uma estratégia híbrida de OCR que combina:
 - **Custo**: Uso de APIs externas pode gerar custos
 - **Dependência**: APIs externas podem ter indisponibilidade
 
-### Pipeline de Processamento
-1. **Recebimento**: Imagem em base64
-2. **Pré-processamento**: Normalização, contraste, filtros
-3. **OCR Principal**: Tentativa com provider principal
-4. **OCR Backup**: Tentativa com provider alternativo (se confiança < threshold)
-5. **Validação**: Verificação do formato brasileiro
-6. **Limpeza**: Remoção de caracteres inválidos
-7. **Resposta**: Placa limpa + score de confiança
+### Pipeline de Processamento (Implementação Real)
+1. **Recebimento**: Mensagem MQTT com imagem em base64 do Sistema 2
+2. **Decodificação**: Conversão de base64 para bytes da imagem  
+3. **OCR/IA**: Extração da placa usando modelo de IA + OCR
+4. **Validação**: Verificação do formato brasileiro (ABC1234 ou ABC1A23)
+5. **Limpeza**: Remoção de caracteres inválidos
+6. **Busca**: Consulta no MongoDB por reserva com `vehicle_plate`
+7. **Atualização**: Se encontrada, status vira "finalizada"
 
 ### Threshold de Confiança
 - **Mínimo aceitável**: 0.80 (80%)
