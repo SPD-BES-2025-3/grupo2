@@ -2,7 +2,7 @@
 
 **Status:** Proposto
 
-**Date:** 2025-07-29
+**Data:** 2025-07-29
 
 ## Contexto
 

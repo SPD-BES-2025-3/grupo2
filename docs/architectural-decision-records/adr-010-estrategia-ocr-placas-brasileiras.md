@@ -2,7 +2,7 @@
 
 **Status:** Proposto
 
-**Date:** 2025-07-29
+**Data:** 2025-07-29
 
 ## Contexto
 
@@ -21,8 +21,6 @@ Implementar uma estratégia híbrida de OCR que combina:
 1. **Tesseract OCR Local**: Processamento totalmente local
 2. **AWS Rekognition**: Serviço de OCR na nuvem da Amazon
 3. **Google Vision API**: Serviço de OCR do Google
-4. **Azure Computer Vision**: Serviço de OCR da Microsoft
-5. **Solução Híbrida**: Combinação de múltiplas abordagens
 
 ## Consequências
 
