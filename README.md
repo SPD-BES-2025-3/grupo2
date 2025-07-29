@@ -112,10 +112,9 @@ Para detalhes sobre a stack (FastAPI, React, PostgreSQL, MongoDB, etc.) e outras
 |11.1|• Implementação do OCR Service com validação brasileira|22/07/2025|24/07/2025|João|⏳ Pendente|
 |11.2|• Integração MQTT para eventos assíncronos|24/07/2025|25/07/2025|João|⏳ Pendente|
 |11.3|• Simuladores de hardware e testes de integração|25/07/2025|27/07/2025|João|⏳ Pendente|
-|12|Implementação do middleware|22/07/2025|27/07/2025|Mauro|⏳ Pendente|
-|13|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
-|14|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
-|15|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
+|12|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
+|13|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
+|14|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
 
 ## 4. Como Rodar o Projeto
 
