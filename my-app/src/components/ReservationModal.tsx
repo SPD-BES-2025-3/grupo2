@@ -1,41 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { useReservationStore } from "../stores/useReservationStore";
 import { useMovieStore } from "../stores/useMovieStore";
-import { genres } from "../types/mocks";
 
 const ReservationModal = () => {
-  const {
-    selectedReservation,
-    updateReservation,
-    addReservation,
-    isOpen,
-    close,
-    reset,
-  } = useReservationStore();
+  const { selectedReservation, addReservation, isOpen, close, reset } =
+    useReservationStore();
   const { movies, selectedSession } = useMovieStore();
-  const movie = movies.find((m) => m.id === selectedSession?.movie_id);
-  const genres_names = movie?.genre_ids
-    .map((g) => {
-      const genre = genres.find((genre) => genre.id === g);
-      return genre?.name;
-    })
-    .join(", ");
+  const movie = movies.find((m) => m.id === selectedSession?.filme_id);
+  const genres_names = movie?.generos.join(", ");
 
   const [customerName, setCustomerName] = React.useState(
-    selectedReservation?.customer_name || ""
+    selectedReservation?.cliente_id || ""
   );
   const [vehiclePlate, setVehiclePlate] = React.useState(
-    selectedReservation?.vehicle_plate || ""
+    selectedReservation?.placa || ""
   );
 
-  useEffect(() => {
-    if (selectedReservation) {
-      setCustomerName(selectedReservation.customer_name);
-      setVehiclePlate(selectedReservation.vehicle_plate);
-    }
-  }, [selectedReservation]);
+  // useEffect(() => {
+  //   if (selectedReservation) {
+  //     setCustomerName(selectedReservation.customer_name);
+  //     setVehiclePlate(selectedReservation.vehicle_plate);
+  //   }
+  // }, [selectedReservation]);
 
   const handleClose = () => {
     reset();
@@ -48,16 +36,16 @@ const ReservationModal = () => {
     e.preventDefault();
     const reservationData = {
       id: selectedReservation ? selectedReservation.id : Date.now(),
-      session_id: selectedSession?.id || 0,
+      sessao_id: selectedSession?.id || "",
       customer_name: customerName,
       vehicle_plate: vehiclePlate,
       vehicle_plate_img: "",
     };
 
     if (selectedReservation) {
-      updateReservation(selectedReservation.id, reservationData);
+      // updateReservation(selectedReservation.id, reservationData);
     } else {
-      addReservation(reservationData);
+      addReservation(reservationData.sessao_id, "1");
     }
     handleClose();
   };
@@ -85,19 +73,19 @@ const ReservationModal = () => {
         <div style={{ display: "flex", gap: "3rem" }}>
           <img src={movie?.poster} style={{ borderRadius: "0.5rem" }} />
           <form onSubmit={handleSubmit} style={{ padding: "1rem" }}>
-            <h2>{movie?.title}</h2>
+            <h2>{movie?.titulo}</h2>
             <p style={{ margin: "0" }}>
-              Duração: {movie?.duration_min} minutos
+              Duração: {movie?.duracao_minutos} minutos
             </p>
-            <p style={{ margin: "0" }}>Classificação: {movie?.rating}</p>
+            <p style={{ margin: "0" }}>
+              Classificação: {movie?.classificacao_indicativa}
+            </p>
             <p style={{ margin: "0" }}>Gênero(s): {genres_names}</p>
             <p style={{ fontSize: "1.1rem" }}>
               <span style={{ fontWeight: "500" }}>Horário: </span>
-              {new Date(selectedSession?.start_time || "")
-                .toLocaleString()
-                .slice(0, 17)}{" "}
-              -<span style={{ fontWeight: "500" }}> Preço: </span>$
-              {selectedSession?.price_per_vehicle.toFixed(2).replace(".", ",")}
+              {selectedSession?.data} {selectedSession?.hora.slice(0, 5)} -
+              <span style={{ fontWeight: "500" }}> Preço: </span>$
+              {selectedSession?.preco_por_veiculo.toFixed(2).replace(".", ",")}
             </p>
             <div style={{ display: "flex", gap: "1rem" }}>
               <div>

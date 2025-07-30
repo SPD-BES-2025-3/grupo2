@@ -7,8 +7,8 @@ type ReservationStore = {
 
   getReservations: () => Promise<void>;
   addReservation: (sessionId: string, clientId: string) => Promise<void>;
-  deleteReservation: (id: number) => Promise<void>;
-  selectReservation: (id: number) => void;
+  deleteReservation: (id: string) => Promise<void>;
+  selectReservation: (id: string) => void;
   reset: () => void;
 
   isOpen: boolean;
@@ -22,7 +22,7 @@ export const useReservationStore = create<ReservationStore>((set) => ({
 
   getReservations: async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/reservas`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/reservas/`);
       if (!response.ok)
         throw new Error(`Erro ao buscar reservas: ${response.statusText}`);
       const data: Reservation[] = await response.json();
@@ -35,9 +35,16 @@ export const useReservationStore = create<ReservationStore>((set) => ({
 
   addReservation: async (sessionId, clientId) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/reservas`, {
-        body: JSON.stringify({ session_id: sessionId, cliente_id: clientId }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/reservas/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sessao_id: sessionId, cliente_id: clientId }),
+        }
+      );
       if (!response.ok)
         throw new Error(`Erro ao adicionar reserva: ${response.statusText}`);
     } catch (error) {

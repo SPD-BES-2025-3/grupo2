@@ -4,11 +4,7 @@ import MovieCard from "./MovieCard";
 import { useReservationStore } from "../stores/useReservationStore";
 
 const CurrentMoviesSection: React.FC = () => {
-  const { movies, sessions, getMovies } = useMovieStore((state) => ({
-    movies: state.movies,
-    sessions: state.sessions,
-    getMovies: state.getMovies,
-  }));
+  const { movies, sessions, getMovies, getSessions } = useMovieStore();
   const { open } = useReservationStore();
   const { selectSession } = useMovieStore();
 
@@ -16,6 +12,7 @@ const CurrentMoviesSection: React.FC = () => {
     (async () => {
       try {
         await getMovies();
+        await getSessions();
       } catch (err) {
         console.log(err);
       }
@@ -27,7 +24,7 @@ const CurrentMoviesSection: React.FC = () => {
       <h2>Filmes em Cartaz</h2>
       <div style={{ display: "flex", gap: "4rem" }}>
         {movies.map((movie) => {
-          const movieSessions = sessions.filter((s) => s.movie_id === movie.id);
+          const movieSessions = sessions.filter((s) => s.filme_id === movie.id);
           return (
             <MovieCard
               key={movie.id}
