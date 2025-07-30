@@ -81,8 +81,8 @@ const ReservationsSection: React.FC = () => {
                     <strong>Filme:</strong> {movie?.titulo}
                   </p>
                   <p style={{ width: "fit-content", margin: "0" }}>
-                    <strong>Sessão:</strong> {session?.data}{" "}
-                    {session?.hora.slice(0, 5)}
+                    <strong>Sessão:</strong> {session?.data} (
+                    {session?.hora.slice(0, 5)})
                   </p>
                   <p style={{ width: "fit-content", margin: "0" }}>
                     <strong>Placa do veículo:</strong> {reservation.placa}

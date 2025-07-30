@@ -6,12 +6,12 @@ import { useMovieStore } from "../stores/useMovieStore";
 
 const ReservationModal = () => {
   const {
+    isOpen,
     selectedReservation,
     addReservation,
-    isOpen,
+    getReservations,
     close,
     reset,
-    getReservations,
   } = useReservationStore();
   const { movies, selectedSession } = useMovieStore();
   const movie = movies.find((m) => m.id === selectedSession?.filme_id);
@@ -62,7 +62,10 @@ const ReservationModal = () => {
         </p>
         <div style={{ display: "flex", gap: "3rem" }}>
           <img src={movie?.poster} style={{ borderRadius: "0.5rem" }} />
-          <form onSubmit={handleSubmit} style={{ padding: "1rem" }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ padding: "1rem", width: "25rem" }}
+          >
             <h2>{movie?.titulo}</h2>
             <p style={{ margin: "0" }}>
               Duração: {movie?.duracao_minutos} minutos
@@ -73,10 +76,15 @@ const ReservationModal = () => {
             <p style={{ margin: "0" }}>Gênero(s): {genres_names}</p>
             <p style={{ fontSize: "1.1rem" }}>
               <span style={{ fontWeight: "500" }}>Horário: </span>
-              {selectedSession?.data} {selectedSession?.hora.slice(0, 5)} -
+              {selectedSession?.data} ({selectedSession?.hora.slice(0, 5)}) -
               <span style={{ fontWeight: "500" }}> Preço: </span>$
               {selectedSession?.preco_por_veiculo.toFixed(2).replace(".", ",")}
             </p>
+            {selectedReservation && (
+              <p style={{ fontSize: "1.1rem" }}>
+                Status: {selectedReservation.status}
+              </p>
+            )}
             <label
               style={{
                 display: "block",

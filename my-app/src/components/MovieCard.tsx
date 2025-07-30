@@ -51,7 +51,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
                 }}
                 onClick={() => onReserve(session.id)}
               >
-                {session.data} {session.hora.slice(0, 5)} - $
+                {session.data} ({session.hora.slice(0, 5)}) - $
                 {session.preco_por_veiculo.toFixed(2).replace(".", ",")}
               </button>
             </li>
