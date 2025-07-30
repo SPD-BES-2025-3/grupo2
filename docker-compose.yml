@@ -76,7 +76,8 @@ services:
     environment:
       - POSTGRES_HOST=postgres
       - DATABASE_URL=mongodb://admin:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017/cinema_db?authSource=admin
-      - MQTT_BROKER_URL=mqtt://mqtt:${MQTT_BROKER_PORT}
+      - MQTT_BROKER_URL=mqtt://mqtt:1883
+      - RUN_SEEDER=true
     ports:
       - "8000:8000"
     depends_on:
@@ -96,7 +97,6 @@ services:
       start_period: 40s
     volumes:
       - backend_data:/app/data
-
 
 volumes:
   postgres_data:
