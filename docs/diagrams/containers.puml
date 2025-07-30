@@ -1,4 +1,4 @@
-@startuml DriveInCinema
+@startuml DriveInCinema_Container_Refined
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 top to bottom direction
@@ -8,26 +8,34 @@ title Diagrama de Contêineres - Sistema de Cinema Drive-in
 
 Person(cliente, "Cliente do Drive-in", "Pessoa que deseja consultar filmes e fazer uma reserva.")
 
+System_Ext(sistema_catraca, "Sistema de Catraca", "Sistema externo que detecta e captura imagens de veículos.")
+
 System_Boundary(front, "Frontend") {
-    Container(frontend, "Aplicação Frontend", "React", "Permite que clientes consultem filmes, sessões e façam reservas.")
+    Container(frontend, "Aplicação Web", "React", "Permite que clientes consultem filmes, sessões e façam reservas.")
 }
 
 System_Boundary(back, "Backend") {
-    Container(backend, "API Backend", "Python/FastAPI", "Gerencia a lógica de negócio para reservas, sessões, filmes e clientes.")
-    Container(plate_verifier, "Serviço de Verificação de Placa", "Python", "Consome eventos para verificar placas de veículos.")
+    Container(backend_api, "API Backend", "Python/FastAPI", "Gerencia a lógica de negócio para CRUD (filmes, sessões, clientes, reservas).")
+    Container(plate_verifier, "Serviço de Eventos de Placa", "Python", "Processa eventos assíncronos para detecção e validação de placas.")
 }
 
 System_Boundary(data, "Data Layer") {
-    ContainerDb(postgres, "Banco de Dados Relacional", "PostgreSQL", "Armazena dados de Clientes, Filmes, Sessões e Reservas.")
-    ContainerDb(mongodb, "Banco de Dados NoSQL", "MongoDB", "Armazena logs de atividade e dados de sessão de usuário.")
-    ContainerDb(message_queue, "Fila de Mensagens", "MQTT Broker", "Comunicação assíncrona entre serviços.")
+    ContainerDb(postgres, "Banco de Dados Relacional", "PostgreSQL", "Armazena dados de Clientes, Filmes, e Sessões.")
+    ContainerDb(mongodb, "Banco de Dados NoSQL", "MongoDB", "Armazena dados das Reservas.")
+    ContainerDb(mqtt_broker, "Fila de Mensagens", "MQTT Broker", "Comunicação assíncrona entre serviços e sistemas.")
 }
 
+' Relações de comunicação
 Rel(cliente, frontend, "Usa para consultar filmes e fazer reservas", "HTTPS")
-Rel_R(frontend, backend, "Faz chamadas à API", "HTTPS/JSON")
-Rel(backend, postgres, "Lê e escreve dados das entidades", "ORM/SQL")
-Rel(backend, mongodb, "Grava logs de atividade", "Driver/ODM")
-Rel(backend, message_queue, "Publica evento para verificação de placa", "MQTT")
-Rel(plate_verifier, message_queue, "Consome evento de verificação", "MQTT")
+Rel(frontend, backend_api, "Faz chamadas à API", "HTTPS/JSON")
+
+' Relações com os bancos de dados
+Rel(backend_api, postgres, "Lê e escreve dados", "ORM/SQL")
+Rel(backend_api, mongodb, "CRUD de reservas", "Driver/ODM")
+
+' Fluxo de eventos assíncrono
+Rel_L(sistema_catraca, mqtt_broker, "Publica eventos de chegada de veículo (imagem)", "MQTT")
+Rel(plate_verifier, mqtt_broker, "Consome eventos de placa e publica confirmação", "MQTT")
+Rel_L(plate_verifier, mongodb, "Busca e atualiza status da reserva", "Driver/ODM")
 
 @enduml
