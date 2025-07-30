@@ -108,13 +108,13 @@ Para detalhes sobre a stack (FastAPI, React, PostgreSQL, MongoDB, etc.) e outras
 |8|Implementação do CRUD de Sessões|22/07/2025|22/07/2025|Mauro|✅ Concluído|
 |9|Configuração final de migrações Alembic|22/07/2025|22/07/2025|Joseppe/Mauro|✅ Concluído|
 |10|Implementação do CRUD de Reservas|22/07/2025|23/07/2025|Mauro|✅ Concluído|
-|11|Sistema de Reconhecimento de Placas com IA|22/07/2025|27/07/2025|João|⏳ Pendente|
-|11.1|• Implementação do OCR Service com validação brasileira|22/07/2025|24/07/2025|João|⏳ Pendente|
-|11.2|• Integração MQTT para eventos assíncronos|24/07/2025|25/07/2025|João|⏳ Pendente|
-|11.3|• Simuladores de hardware e testes de integração|25/07/2025|27/07/2025|João|⏳ Pendente|
-|12|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
-|13|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
-|14|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
+|11|Sistema de Reconhecimento de Placas com IA|22/07/2025|27/07/2025|João|✅ Concluído|
+|11.1|• Implementação do OCR Service com validação brasileira|22/07/2025|24/07/2025|João|✅ Concluído|
+|11.2|• Integração MQTT para eventos assíncronos|24/07/2025|25/07/2025|João|✅ Concluído|
+|11.3|• Simuladores de hardware e testes de integração|25/07/2025|27/07/2025|João|✅ Concluído|
+|12|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|✅ Concluído|
+|13|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|✅ Concluído|
+|14|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|✅ Concluído|
 
 ## 4. Como Rodar o Projeto
 
