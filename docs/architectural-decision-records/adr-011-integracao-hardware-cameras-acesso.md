@@ -1,83 +1,48 @@
-# ADR-011: Simulação de Integração com Sistema Externo de Câmeras
+# ADR-011: Simulação de Integração com Sistema de Catraca
 
 **Status:** Conceitual (Simulação)
 
-**Data:** 2025-07-29
-
 ## Contexto
 
-O projeto do cinema Drive-in precisa simular a integração com um sistema externo (Sistema 2) que controla câmeras e catracas físicas. O Sistema 1 (foco do trabalho acadêmico) deve receber mensagens via MQTT sobre chegada de veículos, processar a imagem da placa usando IA/OCR, validar contra reservas no MongoDB e atualizar o status das reservas.
+O projeto do cinema Drive-in tem como objetivo principal o desenvolvimento do Backend (Sistema de Cinema Drive-in) que interage com um sistema externo (Sistema de Catraca) responsável por câmeras e catracas físicas. Para fins do trabalho acadêmico e para permitir o desenvolvimento do Sistema de Cinema Drive-in sem a necessidade de hardware real, é preciso definir como essa integração será simulada.
 
 ## Decisão
 
-Implementar uma simulação de integração entre dois sistemas:
+Implementar uma **simulação da integração** entre o Sistema de Catraca (Sistema externo) e o Sistema de Cinema Drive-in (Backend) utilizando **MQTT** como protocolo de comunicação.
 
-**Sistema 1 (Nosso Sistema - Foco do Trabalho):**
-- CRUD completo das entidades (Filmes, Sessões, Clientes, Reservas)
-- MQTT Broker subscriber para receber mensagens do Sistema 2
-- Processamento de IA/OCR para detecção de placas
-- Validação de placas contra reservas no MongoDB
-- Atualização de status de reserva para "finalizada"
-
-**Sistema 2 (Simulado - Não construído):**
-- Sistema externo que controla câmeras e catracas físicas
-- Publica mensagens MQTT quando veículo chega
-- Envia imagem em base64 da parte frontal do veículo
-
-## Fluxo de Integração Real
-
-1. **Chegada do Veículo**: Sistema 2 detecta veículo se aproximando
-2. **Captura de Imagem**: Sistema 2 captura imagem frontal em base64
-3. **Publicação MQTT**: Sistema 2 publica mensagem com imagem no tópico
-4. **Recebimento**: Sistema 1 recebe mensagem via MQTT subscriber
-5. **Processamento IA/OCR**: Sistema 1 extrai placa da imagem usando IA
-6. **Validação**: Sistema 1 busca reserva com a placa no MongoDB
-7. **Atualização**: Se encontrada, status da reserva vira "finalizada"
-8. **Resposta**: Sistema 1 pode enviar confirmação via MQTT (opcional)
+-   **Sistema de Cinema Drive-in (Backend - Nosso Foco):**
+    -   CRUD completo das entidades (Filmes, Sessões, Clientes, Reservas).
+    -   Consumirá mensagens MQTT publicadas pelo sistema simulado.
+    -   Realizará o processamento de IA/OCR para detecção de placas e validação de reservas no MongoDB.
+    -   Atualizará o status da reserva para "finalizada" e poderá enviar uma resposta de acesso.
+-   **Sistema de Catraca (Simulado - Não construído):**
+    -   Representará o hardware físico (câmeras/catracas).
+    -   Publicará mensagens MQTT simulando eventos de chegada de veículos (com imagem em base64 da placa frontal).
 
 ## Alternativas Consideradas
 
-1. **Integração Real com Hardware**: Conectar diretamente com câmeras/catracas físicas
-2. **Sistema Monolítico**: Incluir controle de hardware dentro do Sistema 1
-3. **Simulação via MQTT**: Simular Sistema 2 externo (escolhida)
-4. **Mock Local**: Simular entrada sem comunicação externa
+1.  **Integração Real com Hardware**: Conectar diretamente com câmeras/catracas físicas (descartado por complexidade e escopo acadêmico).
+2.  **Sistema Monolítico**: Incluir controle de hardware dentro do Sistema de Cinema Drive-in (descartado para simular arquitetura distribuída).
+3.  **Simulação via MQTT**: Simular o Sistema de Catraca externo via MQTT (escolha atual).
+4.  **Mock Local**: Simular entrada de dados diretamente no backend sem comunicação externa (descartado para maior realismo na comunicação assíncrona).
 
 ## Consequências
 
-**Positivas:**
-- **Foco Acadêmico**: Permite concentrar no desenvolvimento do Sistema 1 (CRUD, IA, validações)
-- **Realismo**: Simula arquitetura real de sistemas distribuídos
-- **Flexibilidade**: MQTT permite fácil substituição por sistema real no futuro
-- **Testabilidade**: Possível criar diferentes cenários de teste
-- **Aprendizado**: Experiência com comunicação assíncrona e processamento de IA
+### Pontos Positivos
 
-**Negativas:**
-- **Simulação**: Não há integração real com hardware físico
-- **Dependência Externa**: Precisa simular Sistema 2 para testes completos
-- **Complexidade**: Adiciona camada MQTT que poderia ser evitada em versão simplificada
+-   **Foco Acadêmico**: Permite concentrar os esforços no desenvolvimento do Sistema de Cinema Drive-in (CRUD, IA, validações) sem a complexidade de hardware.
+-   **Realismo Arquitetural**: Simula uma arquitetura real de sistemas distribuídos e comunicação assíncrona.
+-   **Flexibilidade**: O uso de MQTT permite fácil substituição por um sistema de hardware real no futuro, se necessário.
+-   **Testabilidade**: Facilita a criação de diferentes cenários de teste para o processamento de eventos de placa.
+-   **Aprendizado**: Proporciona experiência prática com comunicação assíncrona e processamento de IA em um cenário de integração.
+
+### Pontos Negativos
+
+-   **Abstração do Hardware**: Não há integração real com hardware físico, limitando alguns testes de ponta a ponta.
+-   **Dependência da Simulação**: Para testes completos, o sistema de simulação do Sistema de Catraca precisa estar funcional.
+-   **Complexidade Adicional**: A camada MQTT adiciona uma complexidade que não existiria em uma versão puramente local ou síncrona.
 
 ## Detalhes de Implementação
 
-### Estrutura da Mensagem MQTT (Sistema 2 → Sistema 1)
-```json
-{
-  "gate_id": "entrada_01",
-  "event_type": "VEHICLE_ARRIVED", 
-  "image_base64": "iVBORw0KGgoAAAANSUhEUgAA...",
-  "timestamp": "2025-07-29T10:30:00Z",
-  "camera_metadata": {
-    "camera_id": "cam_001",
-    "resolution": "1920x1080"
-  }
-}
-```
-
-### Tópicos MQTT
-- **Entrada**: `cinema/vehicle/arrived` (Sistema 2 → Sistema 1)
-- **Saída**: `cinema/access/response` (Sistema 1 → Sistema 2, opcional)
-
-### Processamento no Sistema 1
-1. **MQTT Subscriber** recebe mensagem
-2. **OCR Service** processa `image_base64`
-3. **Reserva Repository** busca por `vehicle_plate` no MongoDB
-4. **Reserva Service** atualiza status para "finalizada" se encontrada
+### Estrutura da Mensagem MQTT (Sistema de Catraca → Backend)
+*(Para detalhes da estrutura da mensagem, consulte o `README.md` arquitetural ou o Diagrama de Sequência do fluxo de placas.)*
