@@ -37,7 +37,14 @@ class ReservaService:
                 reserva.status in [StatusReservaEnum.PENDENTE, StatusReservaEnum.CONFIRMADA]):
                 raise ValueError("Cliente já possui reserva para esta sessão")
         
-        reserva = await self.reserva_repository.criar_reserva(reserva_data)
+        # Criar dados da reserva com a placa do cliente
+        reserva_data_completa = ReservaCreate(
+            sessao_id=reserva_data.sessao_id,
+            cliente_id=reserva_data.cliente_id,
+            placa=cliente.placa
+        )
+        
+        reserva = await self.reserva_repository.criar_reserva(reserva_data_completa)
         return ReservaResponse.model_validate(reserva.model_dump())
 
     async def obter_reserva_por_id(self, reserva_id: str) -> Optional[ReservaResponse]:
