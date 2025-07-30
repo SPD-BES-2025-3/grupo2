@@ -19,9 +19,9 @@ class ConfigManager:
             ConfigName.APP_PORT: os.getenv(ConfigName.APP_PORT, "8000"),
 
             # MQTT
-            ConfigName.MQTT_BROKER_URL: os.getenv(ConfigName.MQTT_BROKER_URL, "mqtt://localhost:1883"),
+            ConfigName.MQTT_BROKER_HOSTNAME: os.getenv(ConfigName.MQTT_BROKER_HOSTNAME, "mqtt"),
             ConfigName.MQTT_BROKER_PORT: os.getenv(ConfigName.MQTT_BROKER_PORT, "1883"),
-            ConfigName.MQTT_BROKER_CLIENT_ID: os.getenv(ConfigName.MQTT_BROKER_CLIENT_ID, "client_id"),
+            ConfigName.MQTT_BROKER_CLIENT_ID: os.getenv(ConfigName.MQTT_BROKER_CLIENT_ID, "cinema_api"),
 
             # PostgreSQL
             ConfigName.POSTGRES_HOST: os.getenv(ConfigName.POSTGRES_HOST, "localhost"),
