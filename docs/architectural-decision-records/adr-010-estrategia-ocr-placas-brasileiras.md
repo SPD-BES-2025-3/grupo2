@@ -1,8 +1,6 @@
 # ADR-010: Estratégia de Processamento OCR para Placas Brasileiras
 
-**Status:** Proposto
-
-**Data:** 2025-07-29
+**Status:** Aprovado
 
 ## Contexto
 
@@ -10,42 +8,35 @@ O sistema precisa processar imagens de placas veiculares brasileiras com alta pr
 
 ## Decisão
 
-Implementar uma estratégia híbrida de OCR que combina:
-1. **Pré-processamento** de imagem para melhoria de qualidade
-2. **Validação** baseada em padrões regex para formatos brasileiros
-3. **Múltiplas tentativas** com diferentes técnicas de OCR
-4. **Score de confiança** para determinar a precisão da detecção
+Implementar uma estratégia de processamento OCR que combina:
+1.  **Pré-processamento** de imagem para melhoria de qualidade.
+2.  **Validação** baseada em padrões regex para formatos brasileiros.
+3.  **Score de confiança** para determinar a precisão da detecção, permitindo filtragem ou reprocessamento de detecções duvidosas.
+
+*(Nota: A decisão sobre as ferramentas específicas de IA/OCR, como YOLOv8 e EasyOCR, é tratada em ADRs separadas, como `adr-013` e `adr-014`.)*
 
 ## Alternativas Consideradas
 
-1. **Tesseract OCR Local**: Processamento totalmente local
-2. **AWS Rekognition**: Serviço de OCR na nuvem da Amazon
-3. **Google Vision API**: Serviço de OCR do Google
+1.  **Tesseract OCR Local**: Processamento totalmente local.
+2.  **AWS Rekognition**: Serviço de OCR na nuvem da Amazon.
+3.  **Google Vision API**: Serviço de OCR do Google.
+*(A decisão atual foca em solução local para menor latência e custo inicial, permitindo futuras integrações com serviços de nuvem para maior precisão ou escalabilidade, se necessário.)*
 
 ## Consequências
 
-**Positivas:**
-- **Precisão**: Validação específica para padrões brasileiros aumenta acurácia
-- **Flexibilidade**: Possibilidade de alternar entre diferentes provedores de OCR
-- **Controle de Qualidade**: Score de confiança permite filtrar detecções duvidosas
-- **Robustez**: Múltiplas tentativas aumentam taxa de sucesso
+### Pontos Positivos
 
-**Negativas:**
-- **Complexidade**: Implementação de múltiplas estratégias
-- **Performance**: Múltiplas tentativas podem aumentar tempo de processamento
-- **Custo**: Uso de APIs externas pode gerar custos
-- **Dependência**: APIs externas podem ter indisponibilidade
+-   **Precisão Aprimorada**: A validação específica para padrões brasileiros aumenta a acurácia do reconhecimento.
+-   **Controle de Qualidade**: O score de confiança permite tratar detecções duvidosas (ex: requerer revisão humana ou tentativa de reprocessamento).
+-   **Adaptabilidade**: A estratégia permite a integração futura de múltiplas técnicas ou provedores de OCR para aumentar a robustez.
 
-### Pipeline de Processamento (Implementação Real)
-1. **Recebimento**: Mensagem MQTT com imagem em base64 do Sistema 2
-2. **Decodificação**: Conversão de base64 para bytes da imagem  
-3. **OCR/IA**: Extração da placa usando modelo de IA + OCR
-4. **Validação**: Verificação do formato brasileiro (ABC1234 ou ABC1A23)
-5. **Limpeza**: Remoção de caracteres inválidos
-6. **Busca**: Consulta no MongoDB por reserva com `vehicle_plate`
-7. **Atualização**: Se encontrada, status vira "finalizada"
+### Pontos Negativos
+
+-   **Complexidade da Lógica**: A implementação da validação e do tratamento de confiança adiciona complexidade ao serviço.
+-   **Qualidade da Imagem**: A performance final do OCR é altamente dependente da qualidade da imagem de entrada.
+-   **Otimização**: Requer otimização contínua dos modelos e do pré-processamento para garantir performance e acurácia.
 
 ### Threshold de Confiança
-- **Mínimo aceitável**: 0.80 (80%)
-- **Ideal**: 0.90+ (90%+)
-- **Backup necessário**: < 0.85 (85%)
+-   **Mínimo aceitável**: 0.80 (80%) para considerar a placa válida.
+-   **Ideal**: 0.90+ (90%+) para garantir alta confiabilidade.
+-   **Ações para < 0.80**: Registrar para análise, acionar processo manual, ou requerer nova imagem.

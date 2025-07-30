@@ -1,32 +1,35 @@
-# ADR-014: Migração para EasyOCR Real
+# ADR-014: Uso do EasyOCR para Reconhecimento de Caracteres
 
 **Status:** Aprovado
 
 ## Contexto
 
-O sistema inicialmente utilizava uma simulação de OCR que retornava placas fictícias para desenvolvimento e testes. Com a evolução do projeto, tornou-se necessário implementar reconhecimento real de caracteres para extrair texto das placas detectadas pelo YOLOv8. A precisão na leitura de placas brasileiras é crítica para o funcionamento correto do sistema de validação de reservas.
+Como parte do pipeline de reconhecimento de placas (`adr-008`), é necessário um componente de Reconhecimento Óptico de Caracteres (OCR) para extrair o texto das placas veiculares detectadas pelo modelo de IA (YOLOv8, conforme `adr-013`). A precisão na leitura de placas brasileiras é crítica, e a solução deve ser eficiente e viável para implementação local.
 
 ## Decisão
 
-Optou-se por migrar da simulação para o **EasyOCR** como solução de reconhecimento óptico de caracteres.
+Optou-se por utilizar o **EasyOCR 1.7.2** como a solução principal para o reconhecimento óptico de caracteres dentro do serviço de processamento de placas.
 
-- **EasyOCR 1.7.2**: Biblioteca Python para OCR
-- **Suporte multilíngue**: Configurado para português e inglês (`['pt', 'en']`)
-- **Otimização GPU**: Tentativa automática de usar GPU, fallback para CPU
-- **Validação brasileira**: Regex para formatos antigo (ABC1234) e Mercosul (ABC1A23)
-- **Pipeline assíncrono**: Integração com FastAPI async/await
+-   **EasyOCR 1.7.2**: Biblioteca Python para OCR.
+-   **Suporte multilíngue**: Configurado para português e inglês (`['pt', 'en']`) para otimizar o reconhecimento de caracteres em placas brasileiras (antigas e Mercosul).
+-   **Otimização GPU**: Tenta automaticamente utilizar GPU para inferência, com fallback para CPU em caso de indisponibilidade ou erro, garantindo flexibilidade de ambiente.
+-   **Integração com pipeline assíncrono**: Será integrado com o fluxo de processamento assíncrono do FastAPI.
+
+## Alternativas Consideradas
+
+*(As alternativas de serviços de nuvem ou outras bibliotecas foram consideradas em um nível mais estratégico de OCR, conforme `adr-010`, mas o EasyOCR foi escolhido para esta implementação específica local.)*
 
 ## Consequências
 
 ### Pontos Positivos
 
-- Precisão adequada para placas brasileiras com suporte offline.
-- API simples com suporte GPU e fallback automático para CPU.
-- Solução gratuita sem dependência de serviços externos pagos.
-- Validação específica para formatos brasileiro antigo e Mercosul.
+-   **Precisão para Placas Brasileiras**: Oferece precisão adequada para os formatos de placas brasileiras, com a vantagem de funcionar offline.
+-   **API Simples**: Possui uma API Python simples para integração.
+-   **Custo Zero (On-premise)**: Solução gratuita e de código aberto, sem dependência de serviços externos pagos ou faturamento por uso.
+-   **Flexibilidade de Hardware**: Suporte automático a GPU e fallback para CPU.
 
 ### Pontos Negativos
 
-- Dependências pesadas (OpenCV, PyTorch) aumentam tamanho da aplicação.
-- Inicialização lenta devido ao carregamento dos modelos.
-- Performance variável dependente da qualidade da imagem de entrada.
+-   **Dependências Pesadas**: Requer dependências como OpenCV e PyTorch, que podem aumentar o tamanho da imagem Docker e o consumo de recursos.
+-   **Inicialização Lenta**: A primeira execução pode ser lenta devido ao carregamento dos modelos de IA/OCR na memória.
+-   **Performance Variável**: A precisão e performance dependem da qualidade da imagem de entrada (resolução, iluminação, ângulo).
