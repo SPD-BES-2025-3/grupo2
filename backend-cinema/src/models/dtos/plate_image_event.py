@@ -6,35 +6,42 @@ from pydantic import BaseModel, Field
 
 
 class PlateEventType(str, Enum):
-    PLATE_DETECTED = "plate_detected"
-    PLATE_PROCESSED = "plate_processed"
-    PLATE_MATCHED = "plate_matched"
-    PLATE_NOT_FOUND = "plate_not_found"
-    ACCESS_GRANTED = "access_granted"
-    ACCESS_DENIED = "access_denied"
+    """Tipos de eventos relacionados apenas ao processamento da placa."""
+    PLATE_DETECTED = "plate_detected"    # Placa foi detectada na imagem
+    PLATE_NOT_DETECTED = "plate_not_detected"  # Não foi possível detectar placa
+    PLATE_MATCHED = "plate_matched"      # Placa encontrada no sistema
+    PLATE_NOT_FOUND = "plate_not_found"  # Placa não encontrada no sistema
 
 
 class PlateImageEvent(BaseModel):
-    """Evento de recebimento de imagem de placa via MQTT."""
+    """Evento de recebimento de imagem de placa via MQTT.
+    
+    Compatível com os modelos Reserva (MongoDB) e Sessao (PostgreSQL).
+    Todos os IDs são strings representando UUIDs para manter compatibilidade.
+    """
     id: Optional[str] = Field(None, description="ID único do evento")
     gate_id: str = Field(..., description="ID da catraca que capturou a imagem")
     event_type: PlateEventType = Field(..., description="Tipo do evento")
     
+    # Dados da imagem
     image_base64: Optional[str] = Field(None, description="Imagem em base64")
-    image_url: Optional[str] = Field(None, description="URL da imagem")
-    image_path: Optional[str] = Field(None, description="Caminho local da imagem")
     
+    # Resultado do OCR
     detected_plate: Optional[str] = Field(None, description="Placa detectada pelo OCR")
-    confidence_score: Optional[float] = Field(None, description="Confiança da detecção (0-1)")
+    confidence_score: Optional[float] = Field(None, description="Confiança da detecção (0-1)", ge=0.0, le=1.0)
     
-    session_id: Optional[int] = Field(None, description="ID da sessão relacionada")
-    reservation_id: Optional[int] = Field(None, description="ID da reserva encontrada")
+    # Relacionamentos com outros modelos (todos como string/UUID)
+    session_id: Optional[str] = Field(None, description="ID da sessão relacionada (UUID)")
+    reservation_id: Optional[str] = Field(None, description="ID da reserva encontrada (UUID)")
+    cliente_id: Optional[str] = Field(None, description="ID do cliente relacionado (UUID)")
     
+    # Status da reserva (para compatibilidade)
+    reservation_status: Optional[str] = Field(None, description="Status da reserva (pendente/confirmada/cancelada)")
+    
+    # Metadados temporais
     timestamp: datetime = Field(default_factory=datetime.now, description="Timestamp do evento")
-    processing_time_ms: Optional[int] = Field(None, description="Tempo de processamento em ms")
+    processing_time_ms: Optional[int] = Field(None, description="Tempo de processamento em ms", ge=0)
     
+    # Metadados adicionais
     camera_metadata: Optional[dict] = Field(None, description="Metadados da câmera")
-    
-    class Config:
-        allow_population_by_field_name = True
-        populate_by_name = True
+    error_message: Optional[str] = Field(None, description="Mensagem de erro se houver")
