@@ -23,3 +23,10 @@ export type Reservation = {
   status: string;
   data_reserva: string;
 };
+
+export type Cliente = {
+  id: string;
+  nome: string;
+  email: string;
+  placa: string;
+};

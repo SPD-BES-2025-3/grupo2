@@ -5,8 +5,8 @@ import { useMovieStore } from "../stores/useMovieStore";
 const ReservationsSection: React.FC = () => {
   const {
     reservations,
-    deleteReservation,
     open,
+    deleteReservation,
     selectReservation,
     getReservations,
   } = useReservationStore();
@@ -18,8 +18,9 @@ const ReservationsSection: React.FC = () => {
     open();
   };
 
-  const handleDelete = (id: string) => {
-    deleteReservation(id);
+  const handleDelete = async (id: string) => {
+    await deleteReservation(id);
+    await getReservations();
   };
 
   useEffect(() => {
@@ -84,9 +85,6 @@ const ReservationsSection: React.FC = () => {
                     {session?.hora.slice(0, 5)}
                   </p>
                   <p style={{ width: "fit-content", margin: "0" }}>
-                    <strong>Cliente:</strong> {reservation.cliente_id}
-                  </p>
-                  <p style={{ width: "fit-content", margin: "0" }}>
                     <strong>Placa do veículo:</strong> {reservation.placa}
                   </p>
                 </div>
@@ -97,7 +95,7 @@ const ReservationsSection: React.FC = () => {
                     }
                     style={{ height: "fit-content" }}
                   >
-                    Editar
+                    Ver
                   </button>
                   <button
                     onClick={() => handleDelete(reservation.id)}

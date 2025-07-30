@@ -1,12 +1,14 @@
 import create from "zustand";
-import { type Reservation } from "../types/entities";
+import { type Reservation, type Cliente } from "../types/entities";
 
 type ReservationStore = {
+  cliente?: Cliente;
   reservations: Reservation[];
   selectedReservation?: Reservation;
 
   getReservations: () => Promise<void>;
-  addReservation: (sessionId: string, clientId: string) => Promise<void>;
+  getCliente: () => Promise<void>;
+  addReservation: (sessionId: string, placa: string) => Promise<void>;
   deleteReservation: (id: string) => Promise<void>;
   selectReservation: (id: string) => void;
   reset: () => void;
@@ -16,9 +18,24 @@ type ReservationStore = {
   close: () => void;
 };
 
-export const useReservationStore = create<ReservationStore>((set) => ({
+export const useReservationStore = create<ReservationStore>((set, get) => ({
+  cliente: undefined,
   reservations: [],
   selectedReservation: undefined,
+  selectedClient: undefined,
+
+  getCliente: async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/clientes/`);
+      if (!response.ok)
+        throw new Error(`Erro ao buscar cliente: ${response.statusText}`);
+      const data: Cliente[] = await response.json();
+      set({ cliente: data[0] });
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error);
+      throw error;
+    }
+  },
 
   getReservations: async () => {
     try {
@@ -33,7 +50,8 @@ export const useReservationStore = create<ReservationStore>((set) => ({
     }
   },
 
-  addReservation: async (sessionId, clientId) => {
+  addReservation: async (sessionId, placa) => {
+    const { cliente } = get();
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/reservas/`,
@@ -42,7 +60,11 @@ export const useReservationStore = create<ReservationStore>((set) => ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ sessao_id: sessionId, cliente_id: clientId }),
+          body: JSON.stringify({
+            sessao_id: sessionId,
+            cliente_id: cliente?.id,
+            placa,
+          }),
         }
       );
       if (!response.ok)
