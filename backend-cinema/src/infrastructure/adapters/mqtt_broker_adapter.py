@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class MQTTConfig(BaseModel):
-    broker_url: str = Field(..., description="URL do broker MQTT")
+    broker_host: str = Field(..., description="Hostname do broker MQTT")
     broker_port: int = Field(..., gt=0, description="Porta do broker MQTT")
     client_id: str = Field(..., description="ID único do cliente MQTT")
 
@@ -89,7 +89,7 @@ class MQTTBrokerAdapter:
         """
         Conecta ao broker MQTT.
         """
-        self.client.connect(self.config.broker_url, self.config.broker_port)
+        self.client.connect(self.config.broker_host, self.config.broker_port)
         logger.info("Conectando ao broker MQTT...")
 
     def start(self):
