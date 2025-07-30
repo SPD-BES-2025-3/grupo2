@@ -38,5 +38,5 @@ Implementar uma arquitetura event-driven usando **MQTT** para a comunicação en
 ## Detalhes de Implementação
 
 ### Tópicos MQTT
--   `cinema/vehicle/arrived`: Sistema de Catraca publica chegada de veículo com imagem.
--   `cinema/access/response`: Backend pode responder com o resultado da validação (opcional, para controle da catraca).
+-   `cinema/plates/images`: Sistema de Catraca publica chegada de veículo com imagem.
+-   `cinema/plates/acess`: Backend pode responder com o resultado da validação (opcional, para controle da catraca).
