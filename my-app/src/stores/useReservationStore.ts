@@ -5,9 +5,9 @@ type ReservationStore = {
   reservations: Reservation[];
   selectedReservation?: Reservation;
 
-  addReservation: (reservation: Reservation) => void;
-  updateReservation: (id: number, updatedReservation: Reservation) => void;
-  deleteReservation: (id: number) => void;
+  getReservations: () => Promise<void>;
+  addReservation: (sessionId: string, clientId: string) => Promise<void>;
+  deleteReservation: (id: number) => Promise<void>;
   selectReservation: (id: number) => void;
   reset: () => void;
 
@@ -19,29 +19,53 @@ type ReservationStore = {
 export const useReservationStore = create<ReservationStore>((set) => ({
   reservations: [],
   selectedReservation: undefined,
-  addReservation: (reservation) =>
-    set((state) => ({
-      reservations: [...state.reservations, reservation],
-    })),
-  updateReservation: (id, updatedReservation) =>
-    set((state) => ({
-      reservations: state.reservations.map((reservation) =>
-        reservation.id === id
-          ? { ...reservation, ...updatedReservation }
-          : reservation
-      ),
-    })),
-  deleteReservation: (id) =>
-    set((state) => ({
-      reservations: state.reservations.filter(
-        (reservation) => reservation.id !== id
-      ),
-    })),
+
+  getReservations: async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/reservas`);
+      if (!response.ok)
+        throw new Error(`Erro ao buscar reservas: ${response.statusText}`);
+      const data: Reservation[] = await response.json();
+      set({ reservations: data });
+    } catch (error) {
+      console.error("Erro ao buscar reservas:", error);
+      throw error;
+    }
+  },
+
+  addReservation: async (sessionId, clientId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/reservas`, {
+        body: JSON.stringify({ session_id: sessionId, cliente_id: clientId }),
+      });
+      if (!response.ok)
+        throw new Error(`Erro ao adicionar reserva: ${response.statusText}`);
+    } catch (error) {
+      console.error("Erro ao adicionar reserva:", error);
+      throw error;
+    }
+  },
+
+  deleteReservation: async (id) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/reservas/${id}`,
+        { method: "DELETE" }
+      );
+      if (!response.ok)
+        throw new Error(`Erro ao deletar reserva: ${response.statusText}`);
+    } catch (error) {
+      console.error("Erro ao deletar reserva:", error);
+      throw error;
+    }
+  },
+
   selectReservation: (id) => {
     set((state) => ({
       selectedReservation: state.reservations.find((s) => s.id === id),
     }));
   },
+
   reset: () => {
     set({ selectedReservation: undefined });
   },

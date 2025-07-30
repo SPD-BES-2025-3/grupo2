@@ -1,6 +1,6 @@
 import create from "zustand";
 import { type Movie, type Genre, type Session } from "../types/entities";
-import { genres, movies, sessions } from "../types/mocks";
+import { genres } from "../types/mocks";
 
 type MovieStore = {
   movies: Movie[];
@@ -8,46 +8,43 @@ type MovieStore = {
   sessions: Session[];
   selectedSession?: Session;
 
-  addMovie: (movie: Movie) => void;
-  updateMovie: (id: number, updatedMovie: Partial<Movie>) => void;
-  deleteMovie: (id: number) => void;
-
-  addSession: (session: Session) => void;
-  updateSession: (id: number, updatedSession: Partial<Session>) => void;
-  deleteSession: (id: number) => void;
+  getMovies: () => Promise<void>;
+  getSessions: () => Promise<void>;
   selectSession: (id: number) => void;
 };
 
 export const useMovieStore = create<MovieStore>((set) => ({
-  movies,
+  movies: [],
   genres,
-  sessions,
+  sessions: [],
   selectedSession: undefined,
 
-  addMovie: (movie) => set((state) => ({ movies: [...state.movies, movie] })),
-  updateMovie: (id, updatedMovie) =>
-    set((state) => ({
-      movies: state.movies.map((movie) =>
-        movie.id === id ? { ...movie, ...updatedMovie } : movie
-      ),
-    })),
-  deleteMovie: (id) =>
-    set((state) => ({
-      movies: state.movies.filter((movie) => movie.id !== id),
-    })),
+  getMovies: async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/filmes`);
+      if (!response.ok)
+        throw new Error(`Erro ao buscar filmes: ${response.statusText}`);
+      const data: Movie[] = await response.json();
+      set({ movies: data });
+    } catch (error) {
+      console.error("Erro ao buscar filmes:", error);
+      throw error;
+    }
+  },
 
-  addSession: (session) =>
-    set((state) => ({ sessions: [...state.sessions, session] })),
-  updateSession: (id, updatedSession) =>
-    set((state) => ({
-      sessions: state.sessions.map((session) =>
-        session.id === id ? { ...session, ...updatedSession } : session
-      ),
-    })),
-  deleteSession: (id) =>
-    set((state) => ({
-      sessions: state.sessions.filter((session) => session.id !== id),
-    })),
+  getSessions: async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/sessoes`);
+      if (!response.ok)
+        throw new Error(`Erro ao buscar sessões: ${response.statusText}`);
+      const data: Session[] = await response.json();
+      set({ sessions: data });
+    } catch (error) {
+      console.error("Erro ao buscar sessões:", error);
+      throw error;
+    }
+  },
+
   selectSession: (id) => {
     set((state) => ({
       selectedSession: state.sessions.find((s) => s.id === id),

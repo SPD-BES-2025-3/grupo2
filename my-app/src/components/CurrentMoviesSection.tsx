@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMovieStore } from "../stores/useMovieStore";
 import MovieCard from "./MovieCard";
 import { useReservationStore } from "../stores/useReservationStore";
 
 const CurrentMoviesSection: React.FC = () => {
-  const { movies, sessions } = useMovieStore((state) => ({
+  const { movies, sessions, getMovies } = useMovieStore((state) => ({
     movies: state.movies,
     sessions: state.sessions,
+    getMovies: state.getMovies,
   }));
   const { open } = useReservationStore();
   const { selectSession } = useMovieStore();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await getMovies();
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <div className="current-movies-section">
