@@ -1,28 +1,32 @@
-export type Genre = {
-  id: number;
-  name: string;
-};
-
 export type Movie = {
-  id: number;
-  title: string;
-  duration_min: number;
-  rating: string;
-  poster: string;
-  genre_ids: number[]; // relates to Genre[]
+  id: string;
+  titulo: string;
+  duracao_minutos: number;
+  classificacao_indicativa: string;
+  poster?: string;
+  generos: string[];
 };
 
 export type Session = {
-  id: number;
-  movie_id: number;
-  start_time: string; // ISO string
-  price_per_vehicle: number;
+  id: string;
+  filme_id: string;
+  data: string;
+  hora: string;
+  preco_por_veiculo: number;
 };
 
 export type Reservation = {
-  id: number;
-  session_id: number;
-  customer_name: string;
-  vehicle_plate: string;
-  vehicle_plate_img: string; // can be a base64 or URL string
+  id: string;
+  sessao_id: string;
+  cliente_id: string;
+  placa: string;
+  status: string;
+  data_reserva: string;
+};
+
+export type Cliente = {
+  id: string;
+  nome: string;
+  email: string;
+  placa: string;
 };

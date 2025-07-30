@@ -9,10 +9,19 @@ O projeto consiste no desenvolvimento de um sistema para gerenciamento de um cin
    1.2 [Descrição do Problema](#12-descrição-do-problema)  
    1.3 [Motivação](#13-motivação)
 
-2. [Plano do Projeto](#2-plano-do-projeto)  
-   2.1 [Objetivo Geral](#21-objetivo-geral)  
-   2.2 [Objetivos Específicos](#22-objetivos-específicos)  
-   2.3 [Tecnologias e Ferramentas Utilizadas](#23-tecnologias-e-ferramentas-utilizadas)
+2. [Plano do Projeto](#2-plano-do-projeto)
+   2.1 [Objetivo Geral](#21-objetivo-geral)
+   2.2 [Objetivos Específicos](#22-objetivos-específicos)
+   2.3 [Sistema de Reconhecimento de Placas com IA](#23-sistema-de-reconhecimento-de-placas-com-ia)
+   2.4 [Arquitetura e Decisões Técnicas](#24-arquitetura-e-decisões-técnicas)
+
+3. [Cronograma de Desenvolvimento](#3-cronograma-de-desenvolvimento)
+
+4. [Como Rodar o Projeto](#4-como-rodar-o-projeto)
+   4.1 [Pré-requisitos](#41-pré-requisitos)
+   4.2 [Instruções de Execução](#42-instruções-de-execução)
+   4.3 [Executando os Testes Unitários](#43-executando-os-testes-unitários)
+   4.4 [Acessando a Documentação da API](#44-acessando-a-documentação-da-api)
 
 ## 1. Introdução
 
@@ -55,21 +64,35 @@ Desenvolver um sistema para gerenciamento de um cinema Drive-in, com funcionalid
 
 ### 2.2 Objetivos Específicos
 
-- Construir uma API RESTful com FastAPI para manipulação dos dados e regras de negócio;
-- Implementar um frontend em React para interação com os usuários;
-- Utilizar PostgreSQL para o armazenamento relacional das entidades principais do domínio;
-- Utilizar MongoDB para armazenar dados não estruturados do sistema;
-- Aplicar boas práticas de documentação com Markdown;
-- Realizar testes unitários nas camadas de backend;
+- Desenvolver uma API RESTful para gerenciar as operações do cinema (filmes, sessões, reservas, etc.).
+- Criar uma interface de usuário web reativa para interação dos clientes e administradores.
+- Implementar um sistema de persistência de dados robusto, utilizando a melhor abordagem para cada tipo de informação (relacional e NoSQL).
+- Garantir a qualidade do código através de testes unitários e documentação técnica.
 
-### 2.3 Tecnologias e Ferramentas Utilizadas
+### 2.3 Sistema de Reconhecimento de Placas com IA
 
-O projeto utiliza a seguinte stack tecnológica:
+O projeto inclui um sistema inteligente de reconhecimento de placas veiculares que automatiza o processo de entrada no cinema Drive-in. Este sistema combina tecnologias de OCR (Optical Character Recognition) com processamento assíncrono via MQTT para proporcionar uma experiência fluida aos clientes.
 
-- **Backend:** Python com FastAPI
-- **Frontend:** React
-- **Banco de Dados Relacional:** PostgreSQL
-- **Banco de Dados NoSQL:** MongoDB
+**Características Principais:**
+
+- **OCR Inteligente**: Reconhecimento automático de placas brasileiras (formatos antigo e Mercosul)
+- **Processamento Assíncrono**: Integração via MQTT para comunicação em tempo real entre câmeras e sistema
+- **Validação Automática**: Verificação de formato e associação com reservas existentes
+- **Controle de Acesso**: Liberação automática baseada na validação da placa detectada
+
+**Fluxo de Funcionamento:**
+
+1. Câmera na entrada captura imagem do veículo
+2. Sistema OCR processa a imagem e extrai a placa
+3. Placa é validada contra reservas ativas via MQTT
+4. Acesso é liberado automaticamente se reserva válida for encontrada
+5. Logs detalhados são mantidos para auditoria
+
+### 2.4 Arquitetura e Decisões Técnicas
+
+As principais decisões arquiteturais, incluindo a escolha de tecnologias, padrões e estratégias, estão documentadas em `Architectural Decision Records` (ADRs). Essa documentação centraliza o contexto, as justificativas e as consequências de cada escolha importante feita no projeto.
+
+Para detalhes sobre a stack (FastAPI, React, PostgreSQL, MongoDB, etc.) e outras decisões, consulte a [**Documentação Arquitetural**](docs/README.md).
 
 ## 3. Cronograma de Desenvolvimento
 
@@ -84,12 +107,14 @@ O projeto utiliza a seguinte stack tecnológica:
 |7|Desenvolvimento do Frontend React|21/07/2025|21/07/2025|Felipe|✅ Concluído|
 |8|Implementação do CRUD de Sessões|22/07/2025|22/07/2025|Mauro|✅ Concluído|
 |9|Configuração final de migrações Alembic|22/07/2025|22/07/2025|Joseppe/Mauro|✅ Concluído|
-|10|Implementação do CRUD de Reservas|22/07/2025|24/07/2025|Mauro|⏳ Pendente|
-|11|Integração com o sistema de detecção de placas|22/07/2025|27/07/2025|João|⏳ Pendente|
-|12|Implementação do middleware|22/07/2025|27/07/2025|Indefinido|⏳ Pendente|
-|13|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
-|14|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
-|15|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⚠️ Pendente|
+|10|Implementação do CRUD de Reservas|22/07/2025|23/07/2025|Mauro|✅ Concluído|
+|11|Sistema de Reconhecimento de Placas com IA|22/07/2025|27/07/2025|João|⏳ Pendente|
+|11.1|• Implementação do OCR Service com validação brasileira|22/07/2025|24/07/2025|João|⏳ Pendente|
+|11.2|• Integração MQTT para eventos assíncronos|24/07/2025|25/07/2025|João|⏳ Pendente|
+|11.3|• Simuladores de hardware e testes de integração|25/07/2025|27/07/2025|João|⏳ Pendente|
+|12|Finalização do Frontend|22/07/2025|27/07/2025|Felipe|⏳ Pendente|
+|13|Dockerização completa do projeto|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
+|14|Hospedagem na OCI(Oracle Cloud Infrastructure)|22/07/2025|28/07/2025|Joseppe|⏳ Pendente|
 
 ## 4. Como Rodar o Projeto
 
@@ -102,7 +127,7 @@ Para executar este projeto, é necessário ter instalado em sua máquina:
 
 ### 4.2 Instruções de Execução
 
-Execute os seguintes comandos em ordem para inicializar o projeto:
+Execute os seguintes comandos, em ordem, para inicializar o projeto:
 
 ```bash
 
@@ -119,7 +144,28 @@ docker compose up -d --build
 
 Após executar esses comandos, o sistema estará disponível em `http://localhost:8000`.
 
-### 4.3 Acessando a Documentação da API
+### 4.3 Executando os Testes Unitários
+
+O projeto inclui uma suíte completa de testes unitários para validar as operações CRUD de todas as entidades do sistema. Para executar os testes:
+
+```bash
+# 1. Navegue até o diretório de testes do backend
+cd backend-cinema/tests
+
+# 2. Execute todos os testes unitários
+python run_all_tests.py
+```
+
+**Cobertura dos Testes:**
+
+- **Cliente Service**: 10 testes CRUD (CREATE, READ, UPDATE, DELETE)
+- **Filme Service**: 9 testes CRUD com validações de título e dados
+- **Sessão Service**: 11 testes CRUD incluindo validações de filme e horário
+- **Reserva Service**: 8 testes CRUD assíncronos com validações de cliente/sessão
+
+**Total**: 38 testes cobrindo todos os cenários essenciais (sucesso, erro, validações).
+
+### 4.4 Acessando a Documentação da API
 
 O FastAPI gera automaticamente a documentação interativa da API. Após iniciar o servidor, você pode acessar:
 

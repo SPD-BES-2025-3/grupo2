@@ -6,19 +6,48 @@ Este diretório consolida toda a documentação relevante do projeto, organizada
 
 A pasta `adr` documenta as principais decisões arquiteturais tomadas ao longo do projeto, detalhando o contexto, as motivações e as consequências de cada escolha. As decisões estão organizadas da seguinte forma:
 
-| ADR Id      | Descrição                                                      | Status    |
-|-------------|----------------------------------------------------------------|-----------|
-| [`adr-001`](adr/adr-001-uso-de-postgres-e-mongodb.md) | Detalha a decisão de adotar PostgreSQL para dados menos voláteis e MongoDB para reservas. | Aprovado  |
-| [`adr-002`](adr/adr-002-uso-de-fastapi-e-react.md) | Justifica a escolha de FastAPI para o backend e React para o frontend. | Aprovado  |
-| [`adr-004`](adr/adr-004-estrategia-validacao.md) | Define a estratégia de validação de dados, separando formato e existência. | Aprovado   |
-| [`adr-005`](adr/adr-005-convencao-camadas.md) | Estabelece a convenção de camadas: Controller, Service e Repository. | Aprovado   |
-| [`adr-006`](adr/adr-006-gerenciamento-configuracao-env.md) | Gerenciamento de configuração via arquivos .env. | Aprovado   |
-| [`adr-007`](adr/adr-007-uso-beanie-odm-mongodb.md) | Define o uso do ODM Beanie para interação com MongoDB. | Aprovado   |
-| [`adr-008`](adr/adr-008-servico-ocr-interno.md) | Estabelece a implementação de um serviço OCR interno para processamento de imagens. | Aprovado   |
+| ADR Id | Descrição | Status |
+|---|---|---|
+| [`adr-001`](architectural-decision-records/adr-001-uso-de-python-fastapi-e-react.md) | Justifica a escolha de FastAPI para o backend e React para o frontend. | Aprovado |
+| [`adr-002`](architectural-decision-records/adr-002-uso-de-postgre-e-mongo.md) | Detalha a decisão de adotar PostgreSQL e MongoDB. | Aprovado |
+| [`adr-003`](architectural-decision-records/adr-003-uso-de-alembic-para-migracoes.md) | Define o uso do Alembic para migrações do banco de dados PostgreSQL. | Aprovado |
+| [`adr-004`](architectural-decision-records/adr-004-estrategia-validacao.md) | Define a estratégia de validação de dados, separando formato e existência. | Aprovado |
+| [`adr-005`](architectural-decision-records/adr-005-convencao-camadas.md) | Estabelece a convenção de camadas: Controller, Service e Repository. | Aprovado |
+| [`adr-006`](architectural-decision-records/adr-006-uso-dtos-schemas.md) | Define o uso de DTOs e Schemas para transferência e validação de dados. | Aprovado |
+| [`adr-007`](architectural-decision-records/adr-007-uso-beanie-odm-mongodb.md) | Define o uso do ODM Beanie para interação com MongoDB. | Aprovado |
+| [`adr-008`](architectural-decision-records/adr-08-arquitetura-pipeline-ocr-yolov8-easyocr.md) | Define arquitetura de pipeline OCR integrada com YOLOv8 e EasyOCR. | Aprovado |
+| [`adr-009`](architectural-decision-records/adr-009-arquitetura-evento-mqtt-placas.md) | Define arquitetura event-driven com MQTT para processamento assíncrono de placas. | Aprovado |
+| [`adr-010`](architectural-decision-records/adr-010-estrategia-ocr-placas-brasileiras.md) | Estabelece estratégia híbrida de OCR para reconhecimento de placas brasileiras. | Aprovado |
+| [`adr-011`](architectural-decision-records/adr-011-integracao-hardware-cameras-acesso.md) | Define integração com hardware de câmeras e sistemas de controle de acesso. | Conceitual (Simulação) |
+| [`adr-012`](architectural-decision-records/adr-012-uso-docker-containerizacao.md) | Define o uso do Docker e Docker Compose para containerização dos serviços. | Aprovado |
+| [`adr-013`](architectural-decision-records/adr-013-escolha-yolov8-deteccao-placas.md) | Escolha do YOLOv8 como modelo de computer vision para detecção de placas. | Aprovado |
+| [`adr-014`](architectural-decision-records/adr-014-migracao-easyocr-real.md) | Migração da simulação OCR para implementação real com EasyOCR. | Aprovado |
+| [`adr-015`](architectural-decision-records/adr-015-stack-frontend-vite-mui-zustand.md) | Define stack frontend com Vite, Material-UI e Zustand para gerenciamento de estado. | Aprovado |
+| [`adr-016`](architectural-decision-records/adr-016-estrategia-healthchecks-microservicos.md) | Estabelece estratégia de health checks para monitoramento de serviços Docker. | Aprovado |
+
+
+## Visão Geral do Sistema de Acesso de Veículos (IA)
+
+O projeto simula a integração entre dois sistemas para automatizar o acesso ao cinema Drive-in:
+
+- **Sistema de Cinema Drive-in (Backend)**: Backend com funcionalidades de CRUD, processamento de imagens (IA/OCR) e validação de reservas.
+- **Sistema de Catraca (Simulado)**: Sistema externo que controla câmeras e catracas físicas, interagindo com o Backend via eventos.
+
+### Arquitetura de Integração Central
+
+O acesso de veículos é orquestrado por um fluxo assíncrono baseado em eventos, garantindo desacoplamento entre os sistemas. O Sistema de Catraca publica eventos de chegada de veículo, que são consumidos pelo Backend para processamento e validação de acesso.
+
+Sistema de Catraca: Captura Evento → [MQTT Broker] → Backend: Processamento IA/OCR → Validação de Reserva → Atualização de Status
+
+### Componentes Chave no Processo de Acesso
+
+* **Comunicação Assíncrona (MQTT):** Conforme `adr-009`, o `Sistema de Catraca` publica eventos de chegada de veículo em um tópico MQTT. O `Backend` subscreve a este tópico para processamento assíncrono, permitindo uma comunicação robusta e desacoplada.
+* **Serviço de Reconhecimento de Placas (IA/OCR):** Implementado internamente ao backend (`adr-008` e `adr-010`), este serviço é responsável por receber as imagens, aplicar modelos de IA para detecção e OCR para extração dos caracteres da placa, validando formatos e fornecendo um score de confiança.
+* **Validação e Atualização de Reservas:** Após o reconhecimento da placa, o Backend busca a reserva correspondente no MongoDB. Caso a reserva seja encontrada e válida, seu status é atualizado para "finalizada", automatizando o processo de acesso.
 
 ## Diagramas
 
-A pasta `diagrams` contém representações visuais, como fluxogramas e diagramas UML, que ajudam a ilustrar e compreender a estrutura do projeto e as interações entre seus componentes.
+A pasta `diagrams` contém representações visuais, como fluxogramas e diagramas UML, que ajudam a ilustrar e compreender a estrutura do projeto e as interações entre seus componentes. Para detalhes sobre o fluxo de processamento de placas, consulte o Diagrama de Sequência específico.
 
 ---
 

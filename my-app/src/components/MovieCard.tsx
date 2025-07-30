@@ -4,7 +4,7 @@ import { type Movie, type Session } from "../types/entities";
 type MovieCardProps = {
   movie: Movie;
   sessions: Session[];
-  onReserve: (sessionId: number) => void;
+  onReserve: (sessionId: string) => void;
 };
 
 const MovieCard: React.FC<MovieCardProps> = ({
@@ -35,7 +35,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           borderRadius: "0.5rem",
         }}
       />
-      <h2 style={{ maxWidth: "70%" }}>{movie.title}</h2>
+      <h2 style={{ maxWidth: "70%" }}>{movie.titulo}</h2>
       <div>
         <h3 style={{ marginTop: "0" }}>Sessões disponíveis:</h3>
         <ul style={{ paddingRight: "1rem", marginTop: "0" }}>
@@ -51,8 +51,8 @@ const MovieCard: React.FC<MovieCardProps> = ({
                 }}
                 onClick={() => onReserve(session.id)}
               >
-                {new Date(session.start_time).toLocaleString().slice(0, 17)} - $
-                {session.price_per_vehicle.toFixed(2).replace(".", ",")}
+                {session.data} ({session.hora.slice(0, 5)}) - $
+                {session.preco_por_veiculo.toFixed(2).replace(".", ",")}
               </button>
             </li>
           ))}

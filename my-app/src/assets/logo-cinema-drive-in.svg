@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Tela de cinema -->
+  <rect x="8" y="8" width="48" height="24" rx="3" ry="3" fill="#333" stroke="#000" stroke-width="1.5"/>
+
+  <!-- Traseira do carro -->
+  <rect x="20" y="38" width="24" height="8" rx="2" ry="2" fill="#0077cc" stroke="#000" stroke-width="1"/>
+
+  <!-- Teto do carro -->
+  <path d="M24 38 L28 32 H36 L40 38 Z" fill="#0099ff" stroke="#000" stroke-width="1"/>
+
+  <!-- Rodas -->
+  <circle cx="24" cy="48" r="3" fill="#000"/>
+  <circle cx="40" cy="48" r="3" fill="#000"/>
+
+  <!-- Detalhe de luz do carro -->
+  <circle cx="20" cy="42" r="1.5" fill="red"/>
+  <circle cx="44" cy="42" r="1.5" fill="yellow"/>
+</svg>

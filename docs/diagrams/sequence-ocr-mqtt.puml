@@ -1,0 +1,59 @@
+@startuml OCR_MQTT_Sequence_Simplified
+
+title Diagrama de Sequência - Processamento de Placa via MQTT
+
+participant "Sistema de Catraca\n(Câmera/Física)" as Sistema2
+participant "MQTT Broker" as MQTT
+box "Sistema de Cinema Drive-in (Backend)" #LightBlue
+    participant "PlateEventDriven Controller" as Controller
+    participant "Plate Processing Service" as PlateProcessor
+    participant "Services (Lógica de Negócio)" as BusinessServices
+end box
+participant "MongoDB\n(Reservas)" as Mongo
+
+== 1. Evento de Chegada de Veículo ==
+Sistema2 -> Sistema2: Captura e codifica imagem da placa (base64)
+Sistema2 -> MQTT: Publica evento **cinema/vehicle/arrived** (imagem_base64)
+
+== 2. Processamento da Placa ==
+MQTT -> Controller: Notifica nova mensagem
+Controller -> PlateProcessor: Requere detecção e extração da placa (imagem_base64)
+activate PlateProcessor
+PlateProcessor -> PlateProcessor: Decodifica imagem
+PlateProcessor -> PlateProcessor: Aplica IA para detecção e OCR
+PlateProcessor --> Controller: Retorna placa e confiança ("ABC1234", 0.92)
+deactivate PlateProcessor
+
+alt Placa Detectada com Sucesso
+    Controller -> BusinessServices: Valida reserva pela placa
+    activate BusinessServices
+    BusinessServices -> Mongo: Busca reserva (placa)
+    Mongo --> BusinessServices: Retorna dados da reserva
+    BusinessServices -> Mongo: Atualiza status da reserva para "finalizada"
+    Mongo --> BusinessServices: Confirmação de atualização
+    BusinessServices --> Controller: Retorna status da reserva
+
+    Controller -> MQTT: Publica confirmação de acesso **cinema/access/response** (true, placa)
+    MQTT -> Sistema2: Envia confirmação de acesso (liberar catraca)
+else Placa Não Detectada ou Inválida / Reserva Não Encontrada
+    Controller -> MQTT: Publica notificação de falha **cinema/access/response** (false, motivo)
+    MQTT -> Sistema2: Envia notificação de recusa (manter catraca fechada)
+end alt
+
+note right of PlateProcessor
+    Detalhes Internos:
+    - Decodificação base64
+    - Aplicação de modelo de IA (detecção da área da placa)
+    - OCR (extração de caracteres)
+    - Validação de formato (Mercosul/antigo)
+    - Cálculo de score de confiança
+end note
+
+note right of BusinessServices
+    Detalhes Internos:
+    - Consulta de reservas no MongoDB
+    - Validação de regras de negócio (ex: reserva ativa, período)
+    - Atualização do estado da reserva
+end note
+
+@enduml
