@@ -17,6 +17,7 @@ class Reserva(Document):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     sessao_id: str
     cliente_id: str
+    placa: str = Field(..., description="Placa do veículo do cliente")
     status: StatusReservaEnum = StatusReservaEnum.PENDENTE
     data_reserva: datetime = Field(default_factory=datetime.now)
     
