@@ -6,11 +6,13 @@
 
 ## Contexto
 
-O sistema de cinema Drive-in precisa processar imagens de placas veiculares capturadas por câmeras na entrada de forma assíncrona e em tempo real. A comunicação entre o sistema de câmeras, o processamento OCR e a validação de reservas deve ser eficiente, desacoplada e escalável.
+O sistema de cinema Drive-in (Sistema 1) precisa receber mensagens assíncronas de um sistema externo (Sistema 2) que controla câmeras e catracas. Quando um veículo chega, o Sistema 2 envia uma imagem em base64 via MQTT. O Sistema 1 deve processar essa imagem com IA/OCR, extrair a placa, validar contra reservas no MongoDB e atualizar o status da reserva para "finalizada".
 
 ## Decisão
 
-Implementar uma arquitetura event-driven utilizando MQTT como broker de mensagens para coordenar o fluxo de processamento de placas veiculares.
+Implementar uma arquitetura event-driven usando MQTT onde:
+- **Sistema 2** (não construído): Publica eventos de chegada de veículos  
+- **Sistema 1** (nosso foco): Subscreve eventos, processa IA/OCR e atualiza reservas
 
 ## Alternativas Consideradas
 
@@ -36,13 +38,13 @@ Implementar uma arquitetura event-driven utilizando MQTT como broker de mensagen
 ## Detalhes de Implementação
 
 ### Tópicos MQTT
-- `camera/plate/detected`: Imagem capturada pela câmera
-- `ocr/plate/processed`: Resultado do processamento OCR  
-- `validation/plate/checked`: Resultado da validação da reserva
-- `access/gate/control`: Comando para liberação/negação de acesso
+- `cinema/vehicle/arrived`: Sistema 2 publica chegada de veículo com imagem
+- `cinema/access/response`: Sistema 1 responde com resultado da validação (opcional)
 
-### Fluxo de Eventos
-1. Câmera publica imagem no tópico `camera/plate/detected`
-2. Serviço OCR consome evento, processa imagem e publica em `ocr/plate/processed`
-3. Serviço de validação verifica reserva e publica em `validation/plate/checked`
-4. Sistema de controle recebe validação e publica comando em `access/gate/control`
+### Fluxo de Eventos  
+1. Sistema 2 detecta veículo e publica em `cinema/vehicle/arrived` com imagem base64
+2. Sistema 1 recebe mensagem via MQTT subscriber
+3. OCR Service processa imagem e extrai placa
+4. Sistema 1 valida placa contra reservas no MongoDB  
+5. Se encontrada, atualiza status da reserva para "finalizada"
+6. (Opcional) Sistema 1 publica resposta em `cinema/access/response`

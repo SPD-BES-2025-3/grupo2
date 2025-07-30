@@ -1,0 +1,52 @@
+@startuml DriveInCinema_Components_Simplified
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+top to bottom direction
+SHOW_PERSON_OUTLINE()
+
+title Diagrama de Componentes - Sistema de Cinema Drive-in (Simplificado)
+
+Person(cliente, "Cliente do Drive-in", "Pessoa que deseja consultar filmes e fazer reservas")
+System_Ext(sistema_externo, "Sistema de Catraca", "Sistema externo que controla câmeras e catracas físicas")
+
+System_Boundary(frontend_sys, "Frontend System") {
+    Container(frontend, "React App", "React/TypeScript", "Interface web para consulta de filmes e reservas")
+}
+
+System_Boundary(backend_sys, "Backend System - Cinema Drive-in") {
+    Component(controllers, "Controllers", "FastAPI", "Endpoints REST para CRUD das entidades")
+    Component(mqtt_controller, "PlateEventDriven\nController", "Python", "Orquestra o processamento de eventos de placa")
+    Component(services, "Services", "Python", "Lógica de negócio (Cliente, Filme, Sessão, Reserva)")
+    Component(plate_processing, "Plate Processing Service", "Python + IA", "Detecção e extração de caracteres de placas via IA e OCR")
+    Component(repositories, "Repositories", "Python", "Camada de acesso a dados")
+    Component(mqtt_adapter, "MQTT Broker\nAdapter", "Paho MQTT", "Adaptador para comunicação com o broker")
+}
+
+System_Boundary(data_sys, "Data Layer") {
+    ContainerDb(postgres, "PostgreSQL", "Database", "Dados estruturados (CRUD)")
+    ContainerDb(mongodb, "MongoDB", "Document DB", "Dados de reservas")
+    ContainerDb(mqtt_broker, "MQTT Broker", "Message Queue", "Comunicação assíncrona com eventos de placa")
+}
+
+' Relações de comunicação
+Rel(cliente, frontend, "Consulta filmes e faz reservas", "HTTPS")
+Rel(frontend, controllers, "API calls", "HTTPS/JSON")
+
+' Fluxo de negócio
+Rel(controllers, services, "Chama lógica de negócio", "Python calls")
+Rel(services, repositories, "Acessa dados", "Python calls")
+
+' Fluxo de eventos de placa
+Rel(sistema_externo, mqtt_broker, "Publica eventos de veículos (imagem)", "MQTT")
+Rel(mqtt_adapter, mqtt_broker, "Assina o tópico de eventos", "MQTT")
+Rel(mqtt_controller, mqtt_adapter, "Gerencia a comunicação", "Python calls")
+Rel(mqtt_controller, plate_processing, "Envia imagem para processamento", "Python calls")
+Rel(plate_processing, mqtt_controller, "Retorna caracteres da placa", "Python calls")
+Rel(mqtt_controller, services, "Valida reserva com a placa extraída", "Python calls")
+Rel(services, mqtt_controller, "Retorna resultado da validação", "Python calls")
+Rel(mqtt_controller, sistema_externo, "Publica confirmação de acesso", "MQTT")
+
+' Relações com o banco de dados
+Rel(repositories, postgres, "CRUD operações", "SQL/ORM")
+Rel(repositories, mongodb, "CRUD reservas", "ODM/Driver")
+
+@enduml

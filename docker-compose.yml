@@ -57,7 +57,7 @@ services:
       - cinema_network
     volumes:
       - mqtt_data:/mosquitto/data
-      - mqtt_config:/mosquitto/config
+      - ./mosquitto-config:/mosquitto/config
       - mqtt_log:/mosquitto/log
     healthcheck:
       test: ["CMD-SHELL", "mosquitto_pub -h localhost -t test -m 'health check' || exit 1"]
@@ -76,7 +76,8 @@ services:
     environment:
       - POSTGRES_HOST=postgres
       - DATABASE_URL=mongodb://admin:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017/cinema_db?authSource=admin
-      - MQTT_BROKER_URL=mqtt://mqtt:${MQTT_BROKER_PORT}
+      - MQTT_BROKER_URL=${MQTT_BROKER_URL}
+      - RUN_SEEDER=true
     ports:
       - "8000:8000"
     depends_on:
