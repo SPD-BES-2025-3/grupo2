@@ -2,72 +2,63 @@
 
 #### Discente: Mauro Sérgio
 
-## Relatório - Etapa 01
+## Relatório - Versão final
 
-Nesta etapa, atuei principalmente na documentação e implementação da base do backend do sistema de cinema drive-in, modelagem de entidades e arquitetura do sistema. Também contribuí para a documentação da stack tecnológica e para a configuração de migrações com Alembic.
+Durante esta etapa, meu papel foi central na **arquitetura e documentação** do sistema de cinema drive-in, atuando como responsável pela modelagem técnica, decisões arquiteturais e estruturação da base do backend. Minhas contribuições focaram em três frentes principais:
 
-Entre os commits mais relevantes, destaco: a modelagem da entidade Filme, a configuração do ORM (SQLAlchemy) e ODM (Motor/MongoDB), a organização dos diagramas e decisões arquiteturais, a implementação dos endpoints de filmes e a finalização da configuração de migrações. Essas entregas estruturam a base do backend e facilitam a evolução do projeto.
+### 🏗️ **Arquitetura e Documentação Técnica**
+Liderei a criação e evolução da documentação arquitetural, incluindo diagramas UML, ADRs (Architecture Decision Records) e estruturação técnica do projeto. Fui responsável por estabelecer padrões de desenvolvimento e documentar decisões críticas.
 
-Alguns pontos ficaram pendentes, como a implementação completa dos testes automatizados para os novos módulos e a documentação detalhada de todos os endpoints. Para as próximas etapas, pretendo avançar na cobertura de testes, integração contínua e detalhamento da documentação técnica.
+### 🎬 **Modelagem de Domínio e Backend**  
+Implementei a modelagem completa do domínio de filmes, sessões e reservas, configurando a infraestrutura de dados com ORM/ODM dual (PostgreSQL + MongoDB) e estabelecendo os padrões de desenvolvimento do backend.
 
-## Histórico de Commits
+### 🚗 **Sistema de Reconhecimento de Placas (IA/OCR)**
+Contribuí significativamente na **documentação e comunicação técnica** do sistema de computer vision, traduzindo as decisões do especialista em IA em documentação clara e acessível para toda a equipe. Meu foco foi facilitar o entendimento e manutenção futura do sistema.
 
-#### 1. **Commit:** `476b686` - Versão inicial do diagrama de classes
-- **Descrição:** Criação do diagrama de classes inicial do sistema
-- **Impacto:** Base para a modelagem das entidades do projeto
-- **Arquivos:** 1 arquivo criado
+## Principais Contribuições por Área
 
-#### 2. **Commit:** `3814a42` - Documentando a stack do projeto
-- **Descrição:** Adição da documentação da stack tecnológica utilizada
-- **Impacto:** Facilita o entendimento das tecnologias adotadas
-- **Arquivos:** 1 arquivo modificado
+### 1. 📐 **Arquitetura e Documentação (Jul 17-30)**
+**Commits:** `476b686`, `3814a42`, `c4fb8c1`, `5b33291`, `6988aec`, `1a99ec1`, `337d590`, `dff6647`, `d1d35ca`
 
-#### 3. **Commit:** `afdec7f` - Correção de um erro de digitação
-- **Descrição:** Pequena correção textual na documentação
-- **Impacto:** Melhora a clareza e a apresentação do projeto
-- **Arquivos:** 1 arquivo modificado
+- **Criação da documentação arquitetural completa:** Desenvolvi todos os diagramas UML (classes, containers, sequência) que definem a estrutura do sistema
+- **Estabelecimento de ADRs:** Documentei e aprovei decisões arquiteturais críticas (ADRs 1-16), incluindo stack tecnológica, padrões de desenvolvimento e arquitetura de microserviços
+- **Definição da arquitetura de containerização:** Especifiquei a estratégia Docker com health checks e orquestração via Docker Compose
+- **Documentação do sistema de placas:** Elaborei diagramas de sequência específicos para o pipeline OCR/IA, facilitando o entendimento do fluxo complexo
 
-#### 4. **Commit:** `c4fb8c1` - Adicionando o diagrama de containeres e reorganizando os diretórios
-- **Descrição:** Inclusão do diagrama de containers e reorganização da estrutura de diretórios
-- **Impacto:** Melhora a organização e a documentação visual da arquitetura
-- **Arquivos:** 2 arquivos criados/modificados
+### 2. 🎬 **Modelagem de Domínio e Backend (Jul 20-24)**
+**Commits:** `253b88f`, `ed34550`, `5cf2a7d`, `dc6cd91`, `996831799`, `7896cc74`, `40f5c55`
 
-#### 5. **Commit:** `253b88f` - Modelando filme
-- **Descrição:** Implementação do modelo de filme
-- **Impacto:** Estruturação da entidade Filme no backend
-- **Arquivos:** 1 arquivo criado/modificado
+- **Modelagem da entidade Filme:** Implementei modelo completo com suporte a múltiplos gêneros, classificação etária e metadados
+- **Configuração dual ORM/ODM:** Estabeleci integração PostgreSQL (SQLAlchemy) + MongoDB (Beanie) para dados relacionais e documentos
+- **Sistema de sessões e reservas:** Modelei entidades complexas com relacionamentos e validações de negócio
+- **Migrações automáticas:** Configurei Alembic para versionamento e evolução do schema do banco relacional
+- **APIs REST completas:** Implementei endpoints CRUD com validação, paginação e tratamento de erros
 
-#### 6. **Commit:** `ed34550` - Configurando ORM e ODM
-- **Descrição:** Configuração inicial do ORM (SQLAlchemy) e ODM (Motor/MongoDB)
-- **Impacto:** Permite integração com bancos de dados relacional e NoSQL
-- **Arquivos:** 2 arquivos criados/modificados
+### 3. 🚗 **Sistema de Reconhecimento de Placas (Jul 28-30)**
+**Commits:** `6fcc1bf`, `ec6af12`, `46fdc6b`, `337d590`, `d1d35ca`
 
-#### 7. **Commit:** `5b33291` - Organizando a disposição dos diagramas com README próprio
-- **Descrição:** Organização dos diagramas em diretório próprio e criação de README explicativo
-- **Impacto:** Facilita a navegação e compreensão dos diagramas do projeto
-- **Arquivos:** 2 arquivos criados/modificados
+- **Documentação da arquitetura OCR:** Traduzi as decisões técnicas do especialista em IA em documentação clara do pipeline YOLOv8 → EasyOCR → Validação
+- **Especificação da integração MQTT:** Documentei a arquitetura event-driven para processamento assíncrono de imagens, facilitando a implementação
+- **Diagramas de sequência especializados:** Criei representações visuais do fluxo OCR/MQTT para comunicação eficaz com a equipe
 
-#### 8. **Commit:** `5cf2a7d` - Implementação inicial de filme
-- **Descrição:** Primeira implementação das rotas e lógica para filmes
-- **Impacto:** Adiciona endpoints e lógica básica para manipulação de filmes
-- **Arquivos:** 2 arquivos criados/modificados
+### 4. 🖥️ **Stack Frontend e DevOps (Jul 30)**
+**Commits:** `dff6647`, `d1d35ca`
 
-#### 9. **Commit:** `dc6cd91` - feat: Setting movie endpoints
-- **Descrição:** Configuração dos endpoints para filmes
-- **Impacto:** Disponibiliza operações CRUD para filmes na API
-- **Arquivos:** 1 arquivo criado/modificado
+- **Definição da stack frontend:** Documentei decisão por Vite + Material-UI + Zustand para interface moderna
+- **Estratégia de health checks:** Estabeleci monitoramento de serviços Docker para garantir disponibilidade
+- **Organização da documentação:** Estruturei documentação técnica para facilitar manutenção e onboarding
 
-#### 10. **Commit:** `ee99272` - Merge branch 'develop' of https://github.com/SPD-BES-2025-3/grupo2 into develop
-- **Descrição:** Merge de alterações da branch develop
-- **Impacto:** Sincronização do desenvolvimento
-- **Arquivos:** Diversos arquivos modificados
+## Impacto Técnico e Resultados
 
-#### 11. **Commit:** `9968317` - feat: Implemented movie genres
-- **Descrição:** Implementação do suporte a gêneros de filmes
-- **Impacto:** Permite associar múltiplos gêneros a um filme
-- **Arquivos:** 1 arquivo criado/modificado
+### 🎯 **Entregas Principais**
+- **16 ADRs aprovadas** documentando decisões arquiteturais críticas
+- **3 diagramas UML completos** (classes, containers, sequência OCR)
+- **Arquitetura dual de dados** PostgreSQL + MongoDB funcional
+- **Documentação técnica do pipeline OCR/IA** facilitando compreensão e manutenção
+- **Backend base estruturado** com padrões de desenvolvimento estabelecidos
 
-#### 12. **Commit:** `3593dc0` - Finalizando a branch Alembic
-- **Descrição:** Finalização e merge das configurações de migração com Alembic
-- **Impacto:** Permite versionamento e migração do banco de dados relacional
-- **Arquivos:** 2 arquivos criados/modificados
+### 🔄 **Metodologia de Trabalho**
+- **Documentação como código:** Todas as decisões arquiteturais foram formalizadas via ADRs
+- **Arquitetura evolutiva:** Diagramas e documentação atualizados conforme evolução do sistema
+- **Padrões consistentes:** Estabeleci convenções de camadas (Controller → Service → Repository)
+- **Versionamento de schema:** Configurei migrações automáticas para evolução do banco
